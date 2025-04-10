@@ -13,6 +13,6 @@ data class SearchItemDTO(
     @SerializedName("original_price")
     val originalPrice: Double?,
     val thumbnail: String,
-    val seller: Any,
-    val attributes: Any
+    val seller: SellerDTO,
+    val attributes: List<AttributesDTO>
 )

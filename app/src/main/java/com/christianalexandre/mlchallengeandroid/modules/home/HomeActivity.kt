@@ -17,7 +17,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            searchRepositoryImpl.search("iphone")
+           searchRepositoryImpl.search("iphone")
         }
     }
 }

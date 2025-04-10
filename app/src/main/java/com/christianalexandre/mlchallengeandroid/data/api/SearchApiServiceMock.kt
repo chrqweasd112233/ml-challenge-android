@@ -2,9 +2,9 @@ package com.christianalexandre.mlchallengeandroid.data.api
 
 import android.content.Context
 import com.christianalexandre.mlchallengeandroid.data.model.SearchResponseDTO
+import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
-import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,15 +12,14 @@ import javax.inject.Singleton
 class SearchApiServiceMock @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SearchApiService {
-    override fun search(query: String): Response<SearchResponseDTO> {
+    override fun search(query: String): ApiResponse<SearchResponseDTO> {
         val fileName = "$query/search-MLA-$query.json"
         return try {
             val json = readJsonFromAssets(fileName)
             val result = Gson().fromJson(json, SearchResponseDTO::class.java)
-            Response.success(result)
+            ApiResponse.Success(result)
         } catch (e: Exception) {
-            println("error")
-            throw e
+            ApiResponse.Error(e)
         }
     }
 

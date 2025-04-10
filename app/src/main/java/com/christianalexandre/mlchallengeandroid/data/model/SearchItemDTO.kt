@@ -1,5 +1,6 @@
 package com.christianalexandre.mlchallengeandroid.data.model
 
+import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.google.gson.annotations.SerializedName
 
 data class SearchItemDTO(
@@ -15,4 +16,16 @@ data class SearchItemDTO(
     val thumbnail: String,
     val seller: SellerDTO,
     val attributes: List<AttributesDTO>
+)
+
+fun SearchItemDTO.toDomain() = SearchItem(
+    id = this.id,
+    siteId = this.siteId,
+    categoryId = this.categoryId,
+    title = this.title,
+    price = this.price,
+    originalPrice = this.originalPrice,
+    thumbnail = this.thumbnail,
+    seller = this.seller,
+    attributes = this.attributes.toDictionary()
 )

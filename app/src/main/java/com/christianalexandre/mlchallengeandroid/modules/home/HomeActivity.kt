@@ -17,7 +17,8 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-           searchRepositoryImpl.search("iphone")
+            val teste = searchRepositoryImpl.search("iphone")
+            println(teste)
         }
     }
 }

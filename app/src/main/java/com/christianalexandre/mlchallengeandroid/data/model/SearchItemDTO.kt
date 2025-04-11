@@ -4,18 +4,18 @@ import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.google.gson.annotations.SerializedName
 
 data class SearchItemDTO(
-    val id: String,
+    val id: String?,
     @SerializedName("site_id")
-    val siteId: String,
+    val siteId: String?,
     @SerializedName("category_id")
-    val categoryId: String,
-    val title: String,
-    val price: Double,
+    val categoryId: String?,
+    val title: String?,
+    val price: Double?,
     @SerializedName("original_price")
     val originalPrice: Double?,
-    val thumbnail: String,
-    val seller: SellerDTO,
-    val attributes: List<AttributesDTO>
+    val thumbnail: String?,
+    val seller: SellerDTO?,
+    val attributes: List<AttributesDTO>?
 )
 
 fun SearchItemDTO.toDomain() = SearchItem(
@@ -27,5 +27,5 @@ fun SearchItemDTO.toDomain() = SearchItem(
     originalPrice = this.originalPrice,
     thumbnail = this.thumbnail,
     seller = this.seller,
-    attributes = this.attributes.toDictionary()
+    attributes = this.attributes?.toDictionary()
 )

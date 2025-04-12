@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
 }
 
 kapt {

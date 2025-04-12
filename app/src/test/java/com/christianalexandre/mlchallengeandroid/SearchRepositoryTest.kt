@@ -6,6 +6,7 @@ import com.christianalexandre.mlchallengeandroid.data.model.SearchApiPaginationD
 import com.christianalexandre.mlchallengeandroid.data.model.SearchItemDTO
 import com.christianalexandre.mlchallengeandroid.data.model.SearchResponseDTO
 import com.christianalexandre.mlchallengeandroid.data.model.SellerDTO
+import com.christianalexandre.mlchallengeandroid.data.model.ShippingDTO
 import com.christianalexandre.mlchallengeandroid.data.repository.SearchRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
@@ -97,6 +98,7 @@ class SearchRepositoryTest {
                     originalPrice = 0.0,
                     thumbnail = "thumbnail mock",
                     officialStoreName = "store name mock",
+                    shipping = ShippingDTO(true),
                     seller = SellerDTO(
                         id = 0,
                         nickname = "nickname mock"
@@ -127,6 +129,7 @@ class SearchRepositoryTest {
                     originalPrice = 0.0,
                     thumbnail = "thumbnail mock",
                     officialStoreName = null,
+                    shipping = null,
                     seller = null,
                     attributes = null
                 )

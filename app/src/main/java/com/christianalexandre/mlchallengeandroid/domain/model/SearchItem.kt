@@ -1,7 +1,5 @@
 package com.christianalexandre.mlchallengeandroid.domain.model
 
-import com.christianalexandre.mlchallengeandroid.data.model.SellerDTO
-
 data class SearchItem(
     val id: String?,
     val siteId: String?,
@@ -10,6 +8,7 @@ data class SearchItem(
     val price: Double?,
     val originalPrice: Double?,
     val thumbnail: String?,
-    val seller: SellerDTO?,
+    val officialStoreName: String?,
+    val seller: Any?,
     val attributes: Map<String, String>?
 )

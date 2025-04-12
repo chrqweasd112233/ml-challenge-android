@@ -7,6 +7,7 @@ import com.christianalexandre.mlchallengeandroid.data.model.SearchItemDTO
 import com.christianalexandre.mlchallengeandroid.data.model.SearchResponseDTO
 import com.christianalexandre.mlchallengeandroid.data.model.SellerDTO
 import com.christianalexandre.mlchallengeandroid.data.repository.SearchRepository
+import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.repository.SearchRepositoryImpl
 import io.mockk.clearMocks
@@ -52,7 +53,7 @@ class SearchRepositoryTest {
 
     @Test
     fun `test search error`() = runTest {
-        val responseMock = ApiResponse.Error<SearchResponseDTO>(Exception("Exception mock"))
+        val responseMock = ApiResponse.Error<SearchResponseDTO>(ApiException(500, "Exception mock"))
 
         coEvery { mockSearchApiService.search("mock") } returns responseMock
 
@@ -95,6 +96,7 @@ class SearchRepositoryTest {
                     price = 0.0,
                     originalPrice = 0.0,
                     thumbnail = "thumbnail mock",
+                    officialStoreName = "store name mock",
                     seller = SellerDTO(
                         id = 0,
                         nickname = "nickname mock"
@@ -124,6 +126,7 @@ class SearchRepositoryTest {
                     price = 0.0,
                     originalPrice = 0.0,
                     thumbnail = "thumbnail mock",
+                    officialStoreName = null,
                     seller = null,
                     attributes = null
                 )

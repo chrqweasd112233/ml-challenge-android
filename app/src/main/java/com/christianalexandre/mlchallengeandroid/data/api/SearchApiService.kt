@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface SearchApiService {
     @GET("search?q={query}")
-    fun search(@Path("query") query: String): ApiResponse<SearchResponseDTO>
+    suspend fun search(@Path("query") query: String): ApiResponse<SearchResponseDTO>
 }

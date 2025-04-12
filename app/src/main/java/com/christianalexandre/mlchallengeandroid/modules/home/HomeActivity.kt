@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityHomeBinding
+import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchHistoryAdapter
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchItemsAdapter
@@ -85,28 +87,40 @@ class HomeActivity : BaseActivity() {
     private fun setupObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventsState.collectLatest { response ->
-                    when(response) {
-//                        is HomeUiState.Empty -> TODO()
-//                        is HomeUiState.Error -> TODO()
-//                        is HomeUiState.Loading -> TODO()
-                        is HomeUiState.Success -> searchItemsAdapter.updateItems(response.data)
-//                        is HomeUiState.Uninitialized -> TODO()
-                        else -> {
-                            println("do anything")
-                        }
-                    }
-                }
+                viewModel.eventsState.collectLatest { searchStateMachine(it) }
             }
         }
     }
     // endregion
 
     // region Action Methods
-    private fun searchFor(item: String) {
-        preferencesManager.searchHistory = listOf(item)
+    private fun searchFor(query: String) {
+        preferencesManager.searchHistory = listOf(query)
         binding.searchView.hide()
-        viewModel.fetchItems(item)
+        viewModel.fetchItems(query)
     }
+
+    private fun searchStateMachine(state: HomeUiState<List<SearchItem>>) {
+        with(binding) {
+            textView.isVisible = state is HomeUiState.Uninitialized
+            progressIndicator.isVisible = state is HomeUiState.Loading
+            searchItemsRecyclerView.isVisible = state is HomeUiState.Success
+        }
+
+        when(state) {
+//            is HomeUiState.Empty -> TODO()
+//            is HomeUiState.Error -> TODO()
+//            is HomeUiState.Loading -> TODO()
+            is HomeUiState.Success -> {
+                searchItemsAdapter.updateItems(state.data)
+            }
+//            is HomeUiState.Uninitialized -> TODO()
+            else -> {
+
+            }
+        }
+    }
+
+
     // endregion
 }

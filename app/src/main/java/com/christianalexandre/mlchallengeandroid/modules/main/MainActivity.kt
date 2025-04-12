@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.main
+package com.christianalexandre.mlchallengeandroid.modules.main
 
 import android.content.Intent
 import android.os.Bundle

@@ -2,9 +2,11 @@
 <resources>
     <!-- App base theme -->
     <color name="yellow_primary">#FFE600</color>
+    <color name="yellow_secondary">#FFDF7B</color>
     <color name="yellow_variant">#FFD000</color>
     <color name="blue_secondary">#2D3277</color>
     <color name="blue_variant">#1F2254</color>
+    <color name="grey_primary">#838282</color>
 
     <color name="colorOnPrimary">#000000</color>
     <color name="colorOnSecondary">#FFFFFF</color>

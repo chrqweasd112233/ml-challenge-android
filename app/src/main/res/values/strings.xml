@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">ML Challenge Android</string>
 
+    <!-- Search -->
     <string name="search_on_meli">Buscar no Mercado Livre</string>
     <string name="search_not_started">Utilize o campo de pesquisa acima para fazer suas buscas</string>
     <string name="search_empty">Sua busca não retornou resultados</string>
     <string name="search_error">Aconteceu um erro ao realizar sua busca. (Código de erro: %d)</string>
+
+    <!-- Item -->
+    <string name="free_shipping">Frete grátis</string>
 </resources>

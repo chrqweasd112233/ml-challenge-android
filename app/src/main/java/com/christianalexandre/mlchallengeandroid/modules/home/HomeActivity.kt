@@ -77,7 +77,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setupSearchItemsRecyclerView() {
-        searchItemsAdapter = SearchItemsAdapter(emptyList())
+        searchItemsAdapter = SearchItemsAdapter(baseContext, emptyList())
         with(binding.searchItemsRecyclerView) {
             layoutManager = LinearLayoutManager(this@HomeActivity)
             adapter = this@HomeActivity.searchItemsAdapter

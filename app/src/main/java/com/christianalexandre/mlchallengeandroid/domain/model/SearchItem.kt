@@ -9,6 +9,7 @@ data class SearchItem(
     val originalPrice: Double?,
     val thumbnail: String?,
     val officialStoreName: String?,
+    val freeShipping: Boolean?,
     val seller: Any?,
     val attributes: Map<String, String>?
 )

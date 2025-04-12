@@ -16,7 +16,7 @@ class SearchApiServiceMock @Inject constructor(
 ) : SearchApiService {
     override suspend fun search(query: String): ApiResponse<SearchResponseDTO> {
         val fileName = "$query/search-MLA-$query.json"
-        delay(2000)
+        delay(500)
         return try {
             val json = readJsonFromAssets(fileName)
             val result = Gson().fromJson(json, SearchResponseDTO::class.java)

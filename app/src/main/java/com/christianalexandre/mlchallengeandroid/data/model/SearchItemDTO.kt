@@ -16,6 +16,7 @@ data class SearchItemDTO(
     val thumbnail: String?,
     @SerializedName("official_store_name")
     val officialStoreName: String?,
+    val shipping: ShippingDTO?,
     val seller: SellerDTO?,
     val attributes: List<AttributesDTO>?
 )
@@ -29,6 +30,7 @@ fun SearchItemDTO.toDomain() = SearchItem(
     originalPrice = this.originalPrice,
     thumbnail = this.thumbnail,
     officialStoreName = this.officialStoreName,
+    freeShipping = this.shipping?.freeShipping,
     seller = this.seller,
     attributes = this.attributes?.toDictionary()
 )

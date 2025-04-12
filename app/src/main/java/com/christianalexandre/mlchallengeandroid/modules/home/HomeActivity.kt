@@ -3,18 +3,13 @@ package com.christianalexandre.mlchallengeandroid.modules.home
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.christianalexandre.mlchallengeandroid.R
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityHomeBinding
-import com.christianalexandre.mlchallengeandroid.domain.repository.SearchRepositoryImpl
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchHistoryAdapter
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchItemsAdapter
@@ -92,9 +87,13 @@ class HomeActivity : BaseActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventsState.collectLatest { response ->
                     when(response) {
-                        is ApiResponse.Success -> searchItemsAdapter.updateItems(response.data!!)
+//                        is HomeUiState.Empty -> TODO()
+//                        is HomeUiState.Error -> TODO()
+//                        is HomeUiState.Loading -> TODO()
+                        is HomeUiState.Success -> searchItemsAdapter.updateItems(response.data)
+//                        is HomeUiState.Uninitialized -> TODO()
                         else -> {
-                            println("error")
+                            println("do anything")
                         }
                     }
                 }

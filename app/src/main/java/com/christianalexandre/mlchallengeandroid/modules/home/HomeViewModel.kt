@@ -11,21 +11,39 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+sealed class HomeUiState<T> {
+    class Uninitialized<T> : HomeUiState<T>()
+    class Loading<T> : HomeUiState<T>()
+    class Success<T>(val data: T) : HomeUiState<T>()
+    class Error<T>(val message: String) : HomeUiState<T>()
+    class Empty<T> : HomeUiState<T>()
+}
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: SearchRepository
 ) : ViewModel() {
 
-    private val _eventsState = MutableStateFlow<ApiResponse<List<SearchItem>?>>(ApiResponse.Uninitialized())
+    private val _eventsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized())
 
     // region Public Observers
-    val eventsState: StateFlow<ApiResponse<List<SearchItem>?>> = _eventsState
+    val eventsState: StateFlow<HomeUiState<List<SearchItem>>> = _eventsState
     // endregion
 
     fun fetchItems(query: String) {
         viewModelScope.launch {
-            _eventsState.value = ApiResponse.Loading()
-            _eventsState.value = repository.search(query = query)
+            _eventsState.value = HomeUiState.Loading()
+            _eventsState.value = when (val result = repository.search(query)) {
+                // TODO: Handle message error
+                is ApiResponse.Error -> HomeUiState.Error(result.error.toString())
+                is ApiResponse.Success -> {
+                    result.data?.let {
+                        if (it.isNotEmpty()) HomeUiState.Success(it)
+                        else HomeUiState.Empty()
+                    } ?: HomeUiState.Empty()
+                }
+            }
+
         }
     }
 }

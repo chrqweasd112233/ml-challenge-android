@@ -13,13 +13,9 @@ class SearchRepositoryImpl @Inject constructor(
     override suspend fun search(query: String): ApiResponse<List<SearchItem>?> {
         return when (val result = searchApiService.search(query)) {
             is ApiResponse.Error -> ApiResponse.Error(result.error)
-            is ApiResponse.Loading -> ApiResponse.Loading()
-            is ApiResponse.Success -> {
-                // TODO: handle optional
-                val searchItems = result.data?.results?.map { it.toDomain() }
-                ApiResponse.Success(searchItems)
-            }
-            is ApiResponse.Uninitialized -> ApiResponse.Uninitialized()
+            is ApiResponse.Success -> ApiResponse.Success(
+                result.data?.results?.map { it.toDomain() }
+            )
         }
     }
 }

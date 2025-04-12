@@ -22,7 +22,9 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="64dp"
             android:text="@string/search_not_started"
+            style="@style/HomeTextView"
             android:visibility="gone"
             android:layout_gravity="center"
             android:textAlignment="center" />

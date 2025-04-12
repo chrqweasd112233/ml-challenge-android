@@ -15,7 +15,7 @@ sealed class HomeUiState<T> {
     class Uninitialized<T> : HomeUiState<T>()
     class Loading<T> : HomeUiState<T>()
     class Success<T>(val data: T) : HomeUiState<T>()
-    class Error<T>(val message: String) : HomeUiState<T>()
+    class Error<T>(val code: Int?) : HomeUiState<T>()
     class Empty<T> : HomeUiState<T>()
 }
 
@@ -34,8 +34,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _eventsState.value = HomeUiState.Loading()
             _eventsState.value = when (val result = repository.search(query)) {
-                // TODO: Handle message error
-                is ApiResponse.Error -> HomeUiState.Error(result.error.toString())
+                is ApiResponse.Error -> HomeUiState.Error(result.error?.code)
                 is ApiResponse.Success -> {
                     result.data?.let {
                         if (it.isNotEmpty()) HomeUiState.Success(it)

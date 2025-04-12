@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityHomeBinding
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
@@ -102,25 +103,18 @@ class HomeActivity : BaseActivity() {
 
     private fun searchStateMachine(state: HomeUiState<List<SearchItem>>) {
         with(binding) {
-            textView.isVisible = state is HomeUiState.Uninitialized
+            textView.isVisible = state is HomeUiState.Uninitialized || state is HomeUiState.Error
             progressIndicator.isVisible = state is HomeUiState.Loading
             searchItemsRecyclerView.isVisible = state is HomeUiState.Success
-        }
 
-        when(state) {
-//            is HomeUiState.Empty -> TODO()
-//            is HomeUiState.Error -> TODO()
-//            is HomeUiState.Loading -> TODO()
-            is HomeUiState.Success -> {
-                searchItemsAdapter.updateItems(state.data)
-            }
-//            is HomeUiState.Uninitialized -> TODO()
-            else -> {
-
+            when(state) {
+                is HomeUiState.Empty -> textView.text = getString(R.string.search_empty)
+                is HomeUiState.Error -> textView.text = getString(R.string.search_error, state.code)
+                is HomeUiState.Success -> searchItemsAdapter.updateItems(state.data)
+                else -> { }
             }
         }
+
     }
-
-
     // endregion
 }

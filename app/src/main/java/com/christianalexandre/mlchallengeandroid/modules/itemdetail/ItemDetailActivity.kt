@@ -24,8 +24,7 @@ class ItemDetailActivity : BaseActivity() {
         searchItem = getExtra()
         setupContentView()
         setupTopBar(binding.includeTopBar.topBar, R.string.item_detail_title)
-
-        viewModel.getItemDetail(searchItem.id!!)
+        setupLayoutInfo()
     }
     // endregion
 
@@ -38,6 +37,12 @@ class ItemDetailActivity : BaseActivity() {
     private fun setupContentView() {
         binding = ActivityItemDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    private fun setupLayoutInfo() {
+        with(binding) {
+            itemTitle.text = searchItem.title
+        }
     }
     // endregion
 

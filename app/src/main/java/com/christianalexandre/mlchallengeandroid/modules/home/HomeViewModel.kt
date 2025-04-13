@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class HomeUiState<T> {
-    class Uninitialized<T> : HomeUiState<T>()
-    class Loading<T> : HomeUiState<T>()
-    class Success<T>(val data: T) : HomeUiState<T>()
-    class Error<T>(val code: Int?) : HomeUiState<T>()
-    class Empty<T> : HomeUiState<T>()
+sealed class HomeUiState<out T> {
+    data object Uninitialized : HomeUiState<Nothing>()
+    data object Loading : HomeUiState<Nothing>()
+    data class Success<out T>(val data: T) : HomeUiState<T>()
+    data class Error(val code: Int?) : HomeUiState<Nothing>()
+    data object Empty : HomeUiState<Nothing>()
 }
 
 @HiltViewModel
@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val repository: SearchRepository
 ) : ViewModel() {
 
-    private val _eventsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized())
+    private val _eventsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)
 
     // region Public Observers
     val eventsState: StateFlow<HomeUiState<List<SearchItem>>> = _eventsState
@@ -32,14 +32,14 @@ class HomeViewModel @Inject constructor(
 
     fun fetchItems(query: String) {
         viewModelScope.launch {
-            _eventsState.value = HomeUiState.Loading()
+            _eventsState.value = HomeUiState.Loading
             _eventsState.value = when (val result = repository.search(query)) {
                 is ApiResponse.Error -> HomeUiState.Error(result.error?.code)
                 is ApiResponse.Success -> {
                     result.data?.let {
                         if (it.isNotEmpty()) HomeUiState.Success(it)
-                        else HomeUiState.Empty()
-                    } ?: HomeUiState.Empty()
+                        else HomeUiState.Empty
+                    } ?: HomeUiState.Empty
                 }
             }
 

@@ -1,6 +1,6 @@
 package com.christianalexandre.mlchallengeandroid.data.util
 
-class ApiException(val code: Int, message: String) : Exception(message)
+class ApiException(val code: Int, override val message: String) : Exception(message)
 
 sealed class ApiResponse<T>(
     val data: T? = null,

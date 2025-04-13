@@ -7,6 +7,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.christianalexandre.mlchallengeandroid.R
@@ -15,9 +17,8 @@ import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 
 
 class SearchItemsAdapter(
-    private val context: Context,
-    private var items: List<SearchItem>
-) : RecyclerView.Adapter<SearchItemsAdapter.SearchItemsViewHolder>() {
+    private val context: Context
+) : ListAdapter<SearchItem, SearchItemsAdapter.SearchItemsViewHolder>(DiffCallback) {
 
     inner class SearchItemsViewHolder(
         binding: ItemSearchBinding
@@ -40,7 +41,7 @@ class SearchItemsAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchItemsViewHolder, position: Int) {
-        val item = items[position]
+        val item = getItem(position)
 
         Glide.with(holder.imageView.context)
             .load(Uri.parse(item.thumbnail))
@@ -61,12 +62,13 @@ class SearchItemsAdapter(
         }
     }
 
-    override fun getItemCount() = items.size
+    object DiffCallback : DiffUtil.ItemCallback<SearchItem>() {
+        override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+            return oldItem == newItem
+        }
 
-    // TODO("NotifyDataSetChanged")
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newList: List<SearchItem>) {
-        this.items = newList
-        notifyDataSetChanged()
+        override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+            return oldItem == newItem
+        }
     }
 }

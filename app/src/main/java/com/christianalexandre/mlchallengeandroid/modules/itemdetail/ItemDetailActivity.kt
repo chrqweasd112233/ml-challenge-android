@@ -1,15 +1,19 @@
 package com.christianalexandre.mlchallengeandroid.modules.itemdetail
 
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityItemDetailBinding
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailCarouselAdapter
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailSpecAdapter
 import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.gson.Gson
@@ -52,6 +56,12 @@ class ItemDetailActivity : BaseActivity() {
     private fun setupLayoutInfo() {
         with(binding) {
             itemTitle.text = searchItem.title
+            originalPriceTextView.isVisible = searchItem.originalPrice != null
+            originalPriceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            originalPriceTextView.text = searchItem.originalPrice.toString()
+            priceTextView.text = searchItem.price.toString()
+            freeShipping.isVisible = searchItem.freeShipping == true
+            freeShipping.text = getString(R.string.free_shipping)
         }
     }
 
@@ -67,6 +77,7 @@ class ItemDetailActivity : BaseActivity() {
         when(itemDetailUiState) {
             is ItemDetailUiState.Success -> {
                 setupCarouselRecyclerView(itemDetailUiState.data.pictures!!)
+                setupSpecRecyclerView(itemDetailUiState.data.attributes!!)
             }
             else -> {}
         }
@@ -76,6 +87,13 @@ class ItemDetailActivity : BaseActivity() {
         with(binding.carouselRecyclerView) {
             setLayoutManager(CarouselLayoutManager())
             adapter = ItemDetailCarouselAdapter(imageList)
+        }
+    }
+
+    private fun setupSpecRecyclerView(specificationMap: Map<String, String>) {
+        with(binding.specificationRecyclerView) {
+            layoutManager = LinearLayoutManager(this@ItemDetailActivity)
+            adapter = ItemDetailSpecAdapter(specificationMap)
         }
     }
     // endregion

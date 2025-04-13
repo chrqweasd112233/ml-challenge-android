@@ -15,6 +15,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -23,25 +24,138 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <TextView
-                    android:id="@+id/item_title"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    style="@style/HomeTextView"
-                    tools:text="Titulo do produto">
-                </TextView>
+                    android:orientation="vertical"
+                    style="@style/SectionCardStyle">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/carousel_recycler_view"
+                    <TextView
+                        android:id="@+id/item_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/HomeTextView"
+                        tools:text="Titulo do produto">
+                    </TextView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/carousel_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="256dp"
+                        android:layout_marginTop="16dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        tools:listitem="@layout/item_carrousel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/price_view"
                     android:layout_width="match_parent"
-                    android:layout_height="256dp"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    tools:listitem="@layout/item_carrousel"/>
+                    android:layout_height="match_parent"
+                    style="@style/SectionCardStyle"
+                    android:padding="8dp"
+                    android:orientation="horizontal">
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/original_price_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="16sp"
+                            android:textStyle=""
+                            tools:text="1234.56">
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/price_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/original_price_text_view"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            tools:text="1234.56">
+                        </TextView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/free_shipping"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/green_light"
+                        android:gravity="end|center_vertical"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        tools:text="Frete grátis">
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/SectionCardStyle"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        style="@style/HomeTextView"
+                        android:text="@string/item_specification">
+                    </TextView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/specification_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        tools:listitem="@layout/item_specification"/>
+
+                    <Button
+                        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                        android:id="@+id/textButton"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/item_all_specification"
+                        android:textColor="@color/colorOnPrimary"
+                        app:strokeColor="@color/colorOnPrimary"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/SectionCardStyle"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        style="@style/HomeTextView"
+                        android:text="@string/item_description">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/description_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        tools:text="Place Holder">
+                    </TextView>
+
+                </LinearLayout>
 
             </LinearLayout>
 

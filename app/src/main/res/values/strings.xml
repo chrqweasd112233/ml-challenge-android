@@ -12,4 +12,7 @@
 
     <!-- Item Detail -->
     <string name="item_detail_title">Detalhes do produto</string>
+    <string name="item_specification">Características do produto</string>
+    <string name="item_all_specification">Conferir todas as características</string>
+    <string name="item_description">Descrição</string>
 </resources>

@@ -40,7 +40,7 @@ class SearchRepositoryTest {
 
     @Test
     fun `test search success`() = runTest {
-        val responseMock = mockSearchApiServiceSuccess()
+        val responseMock = ApiResponse.Success(SearchMockManager.searchResponseDTOMock)
 
         coEvery { mockSearchApiService.search("mock") } returns responseMock
 
@@ -77,42 +77,6 @@ class SearchRepositoryTest {
         assertEquals(null, result.data?.firstOrNull()?.siteId)
         assertEquals(responseMock.data?.results?.firstOrNull()?.id, result.data?.firstOrNull()?.id)
     }
-
-    private fun mockSearchApiServiceSuccess() = ApiResponse.Success(
-        SearchResponseDTO(
-            siteId = "site id mock",
-            query = "query mock",
-            paging = SearchApiPaginationDTO(
-                total = 0,
-                off = 0,
-                limit = 0,
-                primaryResults = 0
-            ),
-            results = listOf(
-                SearchItemDTO(
-                    id = "id mock",
-                    siteId = "site id mock",
-                    categoryId = "category mock",
-                    title = "title mock",
-                    price = 0.0,
-                    originalPrice = 0.0,
-                    thumbnail = "thumbnail mock",
-                    officialStoreName = "store name mock",
-                    shipping = ShippingDTO(true),
-                    seller = SellerDTO(
-                        id = 0,
-                        nickname = "nickname mock"
-                    ),
-                    attributes = listOf(
-                        AttributesDTO(
-                            key = "key mock",
-                            value = "value mock"
-                        )
-                    )
-                )
-            )
-        )
-    )
 
     private fun mockSearchApiServiceNullable() = ApiResponse.Success(
         SearchResponseDTO(

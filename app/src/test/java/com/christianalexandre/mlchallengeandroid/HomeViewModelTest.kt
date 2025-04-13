@@ -54,6 +54,22 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `fetch items with success api result when data has nullable values`() = runTest {
+        val responseMock = ApiResponse.Success(SearchMockManager.searchItemNullableMock)
+
+        coEvery { searchRepository.search("mock") } returns responseMock
+
+        homeViewModel.fetchItems("mock")
+
+        homeViewModel.eventsState.test {
+            assertTrue(awaitItem() is HomeUiState.Uninitialized)
+            assertTrue(awaitItem() is HomeUiState.Loading)
+            assertTrue(awaitItem() is HomeUiState.Success)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `fetch items success with empty list api result`() = runTest {
         coEvery { searchRepository.search("mock") } returns ApiResponse.Success(emptyList())
 

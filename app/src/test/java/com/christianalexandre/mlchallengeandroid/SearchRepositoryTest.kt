@@ -66,7 +66,7 @@ class SearchRepositoryTest {
 
     @Test
     fun `test search success when data has nullable values`() = runTest {
-        val responseMock = mockSearchApiServiceNullable()
+        val responseMock = ApiResponse.Success(SearchMockManager.searchResponseDTONullableMock)
 
         coEvery { mockSearchApiService.search("mock") } returns responseMock
 
@@ -77,27 +77,4 @@ class SearchRepositoryTest {
         assertEquals(null, result.data?.firstOrNull()?.siteId)
         assertEquals(responseMock.data?.results?.firstOrNull()?.id, result.data?.firstOrNull()?.id)
     }
-
-    private fun mockSearchApiServiceNullable() = ApiResponse.Success(
-        SearchResponseDTO(
-            siteId = null,
-            query = "query mock",
-            paging = null,
-            results = listOf(
-                SearchItemDTO(
-                    id = "id mock",
-                    siteId = null,
-                    categoryId = "category mock",
-                    title = "title mock",
-                    price = 0.0,
-                    originalPrice = 0.0,
-                    thumbnail = "thumbnail mock",
-                    officialStoreName = null,
-                    shipping = null,
-                    seller = null,
-                    attributes = null
-                )
-            )
-        )
-    )
 }

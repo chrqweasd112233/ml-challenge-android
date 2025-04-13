@@ -7,6 +7,7 @@ import com.christianalexandre.mlchallengeandroid.data.model.SearchResponseDTO
 import com.christianalexandre.mlchallengeandroid.data.model.SellerDTO
 import com.christianalexandre.mlchallengeandroid.data.model.ShippingDTO
 import com.christianalexandre.mlchallengeandroid.data.model.toDomain
+import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 
 object SearchMockManager {
     val searchResponseDTOMock = SearchResponseDTO(
@@ -44,4 +45,27 @@ object SearchMockManager {
     )
 
     val searchItemMock = searchResponseDTOMock.results?.map { it.toDomain() }
+
+    val searchResponseDTONullableMock = SearchResponseDTO(
+        siteId = null,
+        query = "query mock",
+        paging = null,
+        results = listOf(
+            SearchItemDTO(
+                id = "id mock",
+                siteId = null,
+                categoryId = "category mock",
+                title = "title mock",
+                price = 0.0,
+                originalPrice = 0.0,
+                thumbnail = "thumbnail mock",
+                officialStoreName = null,
+                shipping = null,
+                seller = null,
+                attributes = null
+            )
+        )
+    )
+
+    val searchItemNullableMock = searchResponseDTONullableMock.results?.map { it.toDomain() }
 }

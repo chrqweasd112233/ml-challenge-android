@@ -7,4 +7,5 @@ import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 interface ItemRepository {
     suspend fun search(query: String): ApiResponse<List<SearchItem>?>
     suspend fun getItemDetail(itemId: String): ApiResponse<ItemDetail?>
+    suspend fun getItemDescription(itemId: String): ApiResponse<String?>
 }

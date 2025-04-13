@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityItemDetailBinding
+import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailCarouselAdapter
@@ -68,16 +69,26 @@ class ItemDetailActivity : BaseActivity() {
     private fun setupObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.itemsDetailState.collectLatest { setupItemDetail(it) }
+                launch { viewModel.itemsDetailState.collectLatest { setupItemDetail(it) } }
+                launch { viewModel.itemDescriptionState.collectLatest { setupDescription(it) } }
             }
         }
     }
 
-    private fun setupItemDetail(itemDetailUiState: ItemDetailUiState) {
+    private fun setupItemDetail(itemDetailUiState: ItemDetailUiState<ItemDetail>) {
         when(itemDetailUiState) {
             is ItemDetailUiState.Success -> {
                 setupCarouselRecyclerView(itemDetailUiState.data.pictures!!)
                 setupSpecRecyclerView(itemDetailUiState.data.attributes!!)
+            }
+            else -> {}
+        }
+    }
+
+    private fun setupDescription(itemDetailUiState: ItemDetailUiState<String>) {
+        when(itemDetailUiState) {
+            is ItemDetailUiState.Success -> {
+                binding.descriptionTextView.text = itemDetailUiState.data
             }
             else -> {}
         }

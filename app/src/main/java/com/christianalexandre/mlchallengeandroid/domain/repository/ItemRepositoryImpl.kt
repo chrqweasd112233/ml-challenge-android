@@ -27,4 +27,11 @@ class ItemRepositoryImpl @Inject constructor(
             is ApiResponse.Success -> ApiResponse.Success(result.data?.toDomain())
         }
     }
+
+    override suspend fun getItemDescription(itemId: String): ApiResponse<String?> {
+        return when(val result = itemApiService.getItemDescription(itemId)) {
+            is ApiResponse.Error -> ApiResponse.Error(result.error)
+            is ApiResponse.Success -> ApiResponse.Success(result.data?.plainText)
+        }
+    }
 }

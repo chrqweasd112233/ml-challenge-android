@@ -1,14 +1,14 @@
 package com.christianalexandre.mlchallengeandroid.modules.home.adapters
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.christianalexandre.mlchallengeandroid.modules.util.views.SearchHistoryItemView
 
 class SearchHistoryAdapter(
-    private var items: List<String>,
     private val onItemClickCallback: (String) -> Unit
-) : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryViewHolder>() {
+) : ListAdapter<String, SearchHistoryAdapter.SearchHistoryViewHolder>(DiffCallback) {
 
     inner class SearchHistoryViewHolder(
         val view: SearchHistoryItemView
@@ -19,17 +19,18 @@ class SearchHistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchHistoryViewHolder, position: Int) {
-        val item = items[position]
+        val item = getItem(position)
         holder.view.textView.text = item
         holder.view.setOnClickListener { onItemClickCallback(item) }
     }
 
-    override fun getItemCount() = items.size
+    object DiffCallback : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem == newItem
+        }
 
-    // TODO: Avoid NotifyDataSetChanged
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(items: List<String>) {
-        this.items = items
-        notifyDataSetChanged()
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem == newItem
+        }
     }
 }

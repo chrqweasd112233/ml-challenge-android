@@ -60,16 +60,12 @@ class HomeActivity : BaseActivity() {
                     true
                 } else false
             }
-
-            appBar.setOnClickListener {
-                historyAdapter.updateItems(preferencesManager.searchHistory)
-                searchView.show()
-            }
         }
     }
 
     private fun setupHistoryRecyclerView() {
-        historyAdapter = SearchHistoryAdapter(preferencesManager.searchHistory) { searchFor(it) }
+        historyAdapter = SearchHistoryAdapter { searchFor(it) }
+        historyAdapter.submitList(preferencesManager.searchHistory)
         with(binding.historyRecyclerView) {
             layoutManager = LinearLayoutManager(this@HomeActivity)
             adapter = this@HomeActivity.historyAdapter
@@ -97,6 +93,7 @@ class HomeActivity : BaseActivity() {
     // region Action Methods
     private fun searchFor(query: String) {
         preferencesManager.searchHistory = listOf(query)
+        historyAdapter.submitList(preferencesManager.searchHistory)
         binding.searchView.hide()
         viewModel.fetchItems(query)
     }
@@ -114,7 +111,6 @@ class HomeActivity : BaseActivity() {
                 else -> { }
             }
         }
-
     }
     // endregion
 }

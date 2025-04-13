@@ -17,11 +17,12 @@ import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 
 
 class SearchItemsAdapter(
-    private val context: Context
+    private val context: Context,
+    private val onItemClickCallback: (SearchItem) -> Unit
 ) : ListAdapter<SearchItem, SearchItemsAdapter.SearchItemsViewHolder>(DiffCallback) {
 
     inner class SearchItemsViewHolder(
-        binding: ItemSearchBinding
+        val binding: ItemSearchBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         val imageView = binding.itemImageView
         val titleTextView = binding.titleTextView
@@ -59,6 +60,8 @@ class SearchItemsAdapter(
             priceTextView.text = item.price.toString()
             shippingTextView.isVisible = item.freeShipping == true
             shippingTextView.text = context.getString(R.string.free_shipping)
+
+            binding.root.setOnClickListener { onItemClickCallback(item) }
         }
     }
 

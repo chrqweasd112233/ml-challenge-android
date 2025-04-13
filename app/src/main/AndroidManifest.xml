@@ -24,5 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".modules.home.HomeActivity" />
+        <activity android:name=".modules.itemdetail.ItemDetailActivity" />
     </application>
 </manifest>

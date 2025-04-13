@@ -1,5 +1,6 @@
 package com.christianalexandre.mlchallengeandroid.modules.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
@@ -16,7 +17,10 @@ import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchHistoryAdapter
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchItemsAdapter
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailActivity
+import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
 import com.christianalexandre.mlchallengeandroid.modules.util.manager.PreferencesManager
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,7 +33,6 @@ class HomeActivity : BaseActivity() {
     private lateinit var historyAdapter: SearchHistoryAdapter
     private lateinit var searchItemsAdapter: SearchItemsAdapter
     @Inject lateinit var preferencesManager: PreferencesManager
-
 
     // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +76,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setupSearchItemsRecyclerView() {
-        searchItemsAdapter = SearchItemsAdapter(baseContext)
+        searchItemsAdapter = SearchItemsAdapter(baseContext) { goToDetail(it) }
         with(binding.searchItemsRecyclerView) {
             layoutManager = LinearLayoutManager(this@HomeActivity)
             adapter = this@HomeActivity.searchItemsAdapter
@@ -111,6 +114,13 @@ class HomeActivity : BaseActivity() {
                 else -> { }
             }
         }
+    }
+
+    private fun goToDetail(item: SearchItem) {
+        val itemJson = Gson().toJson(item)
+        val intent = Intent(this, ItemDetailActivity::class.java)
+        intent.putExtra(IntentConstants.SEARCH_ITEM, itemJson)
+        startActivity(intent)
     }
     // endregion
 }

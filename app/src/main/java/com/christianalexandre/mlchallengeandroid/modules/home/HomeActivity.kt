@@ -87,7 +87,7 @@ class HomeActivity : BaseActivity() {
     private fun setupObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventsState.collectLatest { searchStateMachine(it) }
+                viewModel.searchItemsState.collectLatest { searchStateMachine(it) }
             }
         }
     }

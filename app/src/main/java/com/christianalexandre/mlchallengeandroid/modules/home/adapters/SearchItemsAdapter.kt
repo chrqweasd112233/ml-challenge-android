@@ -45,7 +45,7 @@ class SearchItemsAdapter(
         val item = getItem(position)
 
         Glide.with(holder.imageView.context)
-            .load(Uri.parse(item.thumbnail))
+            .load(item.thumbnail)
             .centerCrop()
             .into(holder.imageView)
 

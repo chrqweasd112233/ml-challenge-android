@@ -5,6 +5,7 @@ import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
+import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import javax.inject.Inject
 
@@ -20,11 +21,10 @@ class ItemRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getItemDetail(itemId: String) {
-        val result = itemApiService.getItemDetail(itemId)
-
-        val teste = result.data?.toDomain()
-
-        println(teste)
+    override suspend fun getItemDetail(itemId: String): ApiResponse<ItemDetail?> {
+        return when(val result = itemApiService.getItemDetail(itemId)) {
+            is ApiResponse.Error -> ApiResponse.Error(result.error)
+            is ApiResponse.Success -> ApiResponse.Success(result.data?.toDomain())
+        }
     }
 }

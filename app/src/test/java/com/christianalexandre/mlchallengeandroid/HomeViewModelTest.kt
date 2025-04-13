@@ -45,7 +45,7 @@ class HomeViewModelTest {
 
         homeViewModel.fetchItems("mock")
 
-        homeViewModel.eventsState.test {
+        homeViewModel.searchItemsState.test {
             assertTrue(awaitItem() is HomeUiState.Uninitialized)
             assertTrue(awaitItem() is HomeUiState.Loading)
             assertTrue(awaitItem() is HomeUiState.Success)
@@ -61,7 +61,7 @@ class HomeViewModelTest {
 
         homeViewModel.fetchItems("mock")
 
-        homeViewModel.eventsState.test {
+        homeViewModel.searchItemsState.test {
             assertTrue(awaitItem() is HomeUiState.Uninitialized)
             assertTrue(awaitItem() is HomeUiState.Loading)
             assertTrue(awaitItem() is HomeUiState.Success)
@@ -75,7 +75,7 @@ class HomeViewModelTest {
 
         homeViewModel.fetchItems("mock")
 
-        homeViewModel.eventsState.test {
+        homeViewModel.searchItemsState.test {
             assertTrue(awaitItem() is HomeUiState.Uninitialized)
             assertTrue(awaitItem() is HomeUiState.Loading)
             assertTrue(awaitItem() is HomeUiState.Empty)
@@ -91,7 +91,7 @@ class HomeViewModelTest {
 
         homeViewModel.fetchItems("mock")
 
-        homeViewModel.eventsState.test {
+        homeViewModel.searchItemsState.test {
             assertTrue(awaitItem() is HomeUiState.Uninitialized)
             assertTrue(awaitItem() is HomeUiState.Loading)
             assertTrue(awaitItem() is HomeUiState.Error)

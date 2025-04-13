@@ -24,16 +24,16 @@ class HomeViewModel @Inject constructor(
     private val repository: ItemRepository
 ) : ViewModel() {
 
-    private val _eventsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)
+    private val _searchItemsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)
 
     // region Public Observers
-    val eventsState: StateFlow<HomeUiState<List<SearchItem>>> = _eventsState
+    val searchItemsState: StateFlow<HomeUiState<List<SearchItem>>> = _searchItemsState
     // endregion
 
     fun fetchItems(query: String) {
         viewModelScope.launch {
-            _eventsState.value = HomeUiState.Loading
-            _eventsState.value = when (val result = repository.search(query)) {
+            _searchItemsState.value = HomeUiState.Loading
+            _searchItemsState.value = when (val result = repository.search(query)) {
                 is ApiResponse.Error -> HomeUiState.Error(result.error?.code)
                 is ApiResponse.Success -> {
                     result.data?.let {

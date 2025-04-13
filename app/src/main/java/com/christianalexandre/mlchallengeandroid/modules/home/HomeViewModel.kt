@@ -2,7 +2,7 @@ package com.christianalexandre.mlchallengeandroid.modules.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.christianalexandre.mlchallengeandroid.data.repository.SearchRepository
+import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ sealed class HomeUiState<out T> {
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: SearchRepository
+    private val repository: ItemRepository
 ) : ViewModel() {
 
     private val _eventsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)

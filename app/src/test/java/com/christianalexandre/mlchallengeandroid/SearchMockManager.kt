@@ -1,13 +1,12 @@
 package com.christianalexandre.mlchallengeandroid
 
-import com.christianalexandre.mlchallengeandroid.data.model.AttributesDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SearchApiPaginationDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SearchItemDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SearchResponseDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SellerDTO
-import com.christianalexandre.mlchallengeandroid.data.model.ShippingDTO
-import com.christianalexandre.mlchallengeandroid.data.model.toDomain
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
+import com.christianalexandre.mlchallengeandroid.data.model.search.AttributesDTO
+import com.christianalexandre.mlchallengeandroid.data.util.SearchApiPaginationDTO
+import com.christianalexandre.mlchallengeandroid.data.model.search.SearchItemDTO
+import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
+import com.christianalexandre.mlchallengeandroid.data.model.search.SellerDTO
+import com.christianalexandre.mlchallengeandroid.data.model.search.ShippingDTO
+import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
 
 object SearchMockManager {
     val searchResponseDTOMock = SearchResponseDTO(

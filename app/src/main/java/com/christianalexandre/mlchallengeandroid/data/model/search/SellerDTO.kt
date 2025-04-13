@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.data.model
+package com.christianalexandre.mlchallengeandroid.data.model.search
 
 data class SellerDTO(
     val id: Int?,

@@ -2,11 +2,10 @@ package com.christianalexandre.mlchallengeandroid.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.christianalexandre.mlchallengeandroid.data.api.RetrofitInstance
-import com.christianalexandre.mlchallengeandroid.data.api.SearchApiService
-import com.christianalexandre.mlchallengeandroid.data.api.SearchApiServiceMock
-import com.christianalexandre.mlchallengeandroid.data.repository.SearchRepository
-import com.christianalexandre.mlchallengeandroid.domain.repository.SearchRepositoryImpl
+import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
+import com.christianalexandre.mlchallengeandroid.data.api.ItemApiServiceMock
+import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepositoryImpl
 import com.christianalexandre.mlchallengeandroid.modules.util.manager.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -28,13 +27,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSearchApiService(
-        searchApiServiceMock: SearchApiServiceMock
-    ): SearchApiService = searchApiServiceMock
+        searchApiServiceMock: ItemApiServiceMock
+    ): ItemApiService = searchApiServiceMock
 
     @Provides
     @Singleton
-    fun provideSearchRepository(apiService: SearchApiService): SearchRepository {
-        return SearchRepositoryImpl(apiService)
+    fun provideSearchRepository(apiService: ItemApiService): ItemRepository {
+        return ItemRepositoryImpl(apiService)
     }
 
     @Provides

@@ -1,16 +1,11 @@
 package com.christianalexandre.mlchallengeandroid
 
-import com.christianalexandre.mlchallengeandroid.data.api.SearchApiService
-import com.christianalexandre.mlchallengeandroid.data.model.AttributesDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SearchApiPaginationDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SearchItemDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SearchResponseDTO
-import com.christianalexandre.mlchallengeandroid.data.model.SellerDTO
-import com.christianalexandre.mlchallengeandroid.data.model.ShippingDTO
-import com.christianalexandre.mlchallengeandroid.data.repository.SearchRepository
+import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
+import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
+import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.domain.repository.SearchRepositoryImpl
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepositoryImpl
 import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -23,28 +18,28 @@ import org.junit.Before
 import org.junit.Test
 
 
-class SearchRepositoryTest {
+class ItemRepositoryTest {
 
-    private lateinit var searchRepository: SearchRepository
-    private val mockSearchApiService = mockk<SearchApiService>()
+    private lateinit var itemRepository: ItemRepository
+    private val mockItemApiService = mockk<ItemApiService>()
 
     @Before
     fun setup() {
-        searchRepository = SearchRepositoryImpl(mockSearchApiService)
+        itemRepository = ItemRepositoryImpl(mockItemApiService)
     }
 
     @After
     fun tearDown() {
-        clearMocks(mockSearchApiService)
+        clearMocks(mockItemApiService)
     }
 
     @Test
     fun `test search success`() = runTest {
         val responseMock = ApiResponse.Success(SearchMockManager.searchResponseDTOMock)
 
-        coEvery { mockSearchApiService.search("mock") } returns responseMock
+        coEvery { mockItemApiService.search("mock") } returns responseMock
 
-        val result = searchRepository.search("mock")
+        val result = itemRepository.search("mock")
 
         assertTrue(result is ApiResponse.Success)
         assertNotNull((result as ApiResponse.Success).data)
@@ -56,9 +51,9 @@ class SearchRepositoryTest {
     fun `test search error`() = runTest {
         val responseMock = ApiResponse.Error<SearchResponseDTO>(ApiException(500, "Exception mock"))
 
-        coEvery { mockSearchApiService.search("mock") } returns responseMock
+        coEvery { mockItemApiService.search("mock") } returns responseMock
 
-        val result = searchRepository.search("mock")
+        val result = itemRepository.search("mock")
 
         assertTrue(result is ApiResponse.Error)
         assertEquals("Exception mock", result.error?.message)
@@ -68,9 +63,9 @@ class SearchRepositoryTest {
     fun `test search success when data has nullable values`() = runTest {
         val responseMock = ApiResponse.Success(SearchMockManager.searchResponseDTONullableMock)
 
-        coEvery { mockSearchApiService.search("mock") } returns responseMock
+        coEvery { mockItemApiService.search("mock") } returns responseMock
 
-        val result = searchRepository.search("mock")
+        val result = itemRepository.search("mock")
 
         assertTrue(result is ApiResponse.Success)
         assertNotNull((result as ApiResponse.Success).data)

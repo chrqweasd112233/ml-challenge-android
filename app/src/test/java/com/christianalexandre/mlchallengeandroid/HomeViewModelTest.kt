@@ -1,7 +1,7 @@
 package com.christianalexandre.mlchallengeandroid
 
 import app.cash.turbine.test
-import com.christianalexandre.mlchallengeandroid.data.repository.SearchRepository
+import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.modules.home.HomeUiState
@@ -22,14 +22,14 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
 
-    private lateinit var searchRepository: SearchRepository
+    private lateinit var itemRepository: ItemRepository
     private lateinit var homeViewModel: HomeViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        searchRepository = mockk()
-        homeViewModel = HomeViewModel(searchRepository)
+        itemRepository = mockk()
+        homeViewModel = HomeViewModel(itemRepository)
     }
 
     @After
@@ -41,7 +41,7 @@ class HomeViewModelTest {
     fun `fetch items with success api result`() = runTest {
         val responseMock = ApiResponse.Success(SearchMockManager.searchItemMock)
 
-        coEvery { searchRepository.search("mock") } returns responseMock
+        coEvery { itemRepository.search("mock") } returns responseMock
 
         homeViewModel.fetchItems("mock")
 
@@ -57,7 +57,7 @@ class HomeViewModelTest {
     fun `fetch items with success api result when data has nullable values`() = runTest {
         val responseMock = ApiResponse.Success(SearchMockManager.searchItemNullableMock)
 
-        coEvery { searchRepository.search("mock") } returns responseMock
+        coEvery { itemRepository.search("mock") } returns responseMock
 
         homeViewModel.fetchItems("mock")
 
@@ -71,7 +71,7 @@ class HomeViewModelTest {
 
     @Test
     fun `fetch items success with empty list api result`() = runTest {
-        coEvery { searchRepository.search("mock") } returns ApiResponse.Success(emptyList())
+        coEvery { itemRepository.search("mock") } returns ApiResponse.Success(emptyList())
 
         homeViewModel.fetchItems("mock")
 
@@ -85,7 +85,7 @@ class HomeViewModelTest {
 
     @Test
     fun `fetch items with error api result`() = runTest {
-        coEvery { searchRepository.search("mock") } returns ApiResponse.Error(
+        coEvery { itemRepository.search("mock") } returns ApiResponse.Error(
             ApiException(500, "Exception mock")
         )
 

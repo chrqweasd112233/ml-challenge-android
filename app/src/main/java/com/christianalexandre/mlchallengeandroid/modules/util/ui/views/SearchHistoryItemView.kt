@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.modules.util.views
+package com.christianalexandre.mlchallengeandroid.modules.util.ui.views
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.christianalexandre.mlchallengeandroid.modules.util.views.SearchHistoryItemView
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.views.SearchHistoryItemView
 
 class SearchHistoryAdapter(
     private val onItemClickCallback: (String) -> Unit

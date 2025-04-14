@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailUiState
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailViewModel
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertTrue
@@ -49,9 +49,9 @@ class ItemDetailViewModelTest {
         itemDetailViewModel.fetchInformation("mock")
 
         itemDetailViewModel.itemsDetailState.test {
-            assertTrue(awaitItem() is ItemDetailUiState.Uninitialized)
-            assertTrue(awaitItem() is ItemDetailUiState.Loading)
-            assertTrue(awaitItem() is ItemDetailUiState.Success)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Success)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -69,9 +69,9 @@ class ItemDetailViewModelTest {
             itemDetailViewModel.fetchInformation("mock")
 
             itemDetailViewModel.itemsDetailState.test {
-                assertTrue(awaitItem() is ItemDetailUiState.Uninitialized)
-                assertTrue(awaitItem() is ItemDetailUiState.Loading)
-                assertTrue(awaitItem() is ItemDetailUiState.Success)
+                assertTrue(awaitItem() is GenericUiState.Uninitialized)
+                assertTrue(awaitItem() is GenericUiState.Loading)
+                assertTrue(awaitItem() is GenericUiState.Success)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -88,9 +88,9 @@ class ItemDetailViewModelTest {
         itemDetailViewModel.fetchInformation("mock")
 
         itemDetailViewModel.itemsDetailState.test {
-            assertTrue(awaitItem() is ItemDetailUiState.Uninitialized)
-            assertTrue(awaitItem() is ItemDetailUiState.Loading)
-            assertTrue(awaitItem() is ItemDetailUiState.Error)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -109,9 +109,9 @@ class ItemDetailViewModelTest {
             itemDetailViewModel.fetchInformation("mock")
 
             itemDetailViewModel.itemDescriptionState.test {
-                assertTrue(awaitItem() is ItemDetailUiState.Uninitialized)
-                assertTrue(awaitItem() is ItemDetailUiState.Loading)
-                assertTrue(awaitItem() is ItemDetailUiState.Success)
+                assertTrue(awaitItem() is GenericUiState.Uninitialized)
+                assertTrue(awaitItem() is GenericUiState.Loading)
+                assertTrue(awaitItem() is GenericUiState.Success)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -129,9 +129,9 @@ class ItemDetailViewModelTest {
             itemDetailViewModel.fetchInformation("mock")
 
             itemDetailViewModel.itemDescriptionState.test {
-                assertTrue(awaitItem() is ItemDetailUiState.Uninitialized)
-                assertTrue(awaitItem() is ItemDetailUiState.Loading)
-                assertTrue(awaitItem() is ItemDetailUiState.Error)
+                assertTrue(awaitItem() is GenericUiState.Uninitialized)
+                assertTrue(awaitItem() is GenericUiState.Loading)
+                assertTrue(awaitItem() is GenericUiState.Error)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -148,9 +148,9 @@ class ItemDetailViewModelTest {
         itemDetailViewModel.fetchInformation("mock")
 
         itemDetailViewModel.itemDescriptionState.test {
-            assertTrue(awaitItem() is ItemDetailUiState.Uninitialized)
-            assertTrue(awaitItem() is ItemDetailUiState.Loading)
-            assertTrue(awaitItem() is ItemDetailUiState.Error)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
     }

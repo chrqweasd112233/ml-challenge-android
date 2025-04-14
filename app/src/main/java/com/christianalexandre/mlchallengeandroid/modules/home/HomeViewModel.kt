@@ -5,19 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-sealed class HomeUiState<out T> {
-    data object Uninitialized : HomeUiState<Nothing>()
-    data object Loading : HomeUiState<Nothing>()
-    data class Success<out T>(val data: T) : HomeUiState<T>()
-    data class Error(val code: Int?) : HomeUiState<Nothing>()
-    data object Empty : HomeUiState<Nothing>()
-}
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -25,22 +18,22 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _searchItemsState =
-        MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)
+        MutableStateFlow<GenericUiState<List<SearchItem>>>(GenericUiState.Uninitialized)
 
     // region Public Observers
-    val searchItemsState: StateFlow<HomeUiState<List<SearchItem>>> = _searchItemsState
+    val searchItemsState: StateFlow<GenericUiState<List<SearchItem>>> = _searchItemsState
     // endregion
 
     fun fetchItems(query: String) {
         viewModelScope.launch {
-            _searchItemsState.value = HomeUiState.Loading
+            _searchItemsState.value = GenericUiState.Loading
             _searchItemsState.value = when (val result = repository.search(query)) {
-                is ApiResponse.Error -> HomeUiState.Error(result.error?.code)
+                is ApiResponse.Error -> GenericUiState.Error(result.error?.code)
                 is ApiResponse.Success -> {
                     result.data?.let {
-                        if (it.isNotEmpty()) HomeUiState.Success(it)
-                        else HomeUiState.Empty
-                    } ?: HomeUiState.Empty
+                        if (it.isNotEmpty()) GenericUiState.Success(it)
+                        else GenericUiState.Empty
+                    } ?: GenericUiState.Empty
                 }
             }
 

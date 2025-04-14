@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.modules.home.HomeUiState
 import com.christianalexandre.mlchallengeandroid.modules.home.HomeViewModel
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertTrue
@@ -46,9 +46,9 @@ class HomeViewModelTest {
         homeViewModel.fetchItems("mock")
 
         homeViewModel.searchItemsState.test {
-            assertTrue(awaitItem() is HomeUiState.Uninitialized)
-            assertTrue(awaitItem() is HomeUiState.Loading)
-            assertTrue(awaitItem() is HomeUiState.Success)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Success)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -62,9 +62,9 @@ class HomeViewModelTest {
         homeViewModel.fetchItems("mock")
 
         homeViewModel.searchItemsState.test {
-            assertTrue(awaitItem() is HomeUiState.Uninitialized)
-            assertTrue(awaitItem() is HomeUiState.Loading)
-            assertTrue(awaitItem() is HomeUiState.Success)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Success)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -76,9 +76,9 @@ class HomeViewModelTest {
         homeViewModel.fetchItems("mock")
 
         homeViewModel.searchItemsState.test {
-            assertTrue(awaitItem() is HomeUiState.Uninitialized)
-            assertTrue(awaitItem() is HomeUiState.Loading)
-            assertTrue(awaitItem() is HomeUiState.Empty)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Empty)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -92,9 +92,9 @@ class HomeViewModelTest {
         homeViewModel.fetchItems("mock")
 
         homeViewModel.searchItemsState.test {
-            assertTrue(awaitItem() is HomeUiState.Uninitialized)
-            assertTrue(awaitItem() is HomeUiState.Loading)
-            assertTrue(awaitItem() is HomeUiState.Error)
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
     }

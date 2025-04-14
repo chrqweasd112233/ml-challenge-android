@@ -20,6 +20,7 @@ import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchIte
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailActivity
 import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
 import com.christianalexandre.mlchallengeandroid.modules.util.managers.PreferencesManager
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -103,16 +104,16 @@ class HomeActivity : BaseActivity() {
         viewModel.fetchItems(query)
     }
 
-    private fun searchStateMachine(state: HomeUiState<List<SearchItem>>) {
+    private fun searchStateMachine(state: GenericUiState<List<SearchItem>>) {
         with(binding) {
-            textView.isVisible = state is HomeUiState.Uninitialized || state is HomeUiState.Error
-            progressIndicator.isVisible = state is HomeUiState.Loading
-            searchItemsRecyclerView.isVisible = state is HomeUiState.Success
+            textView.isVisible = state is GenericUiState.Uninitialized || state is GenericUiState.Error
+            progressIndicator.isVisible = state is GenericUiState.Loading
+            searchItemsRecyclerView.isVisible = state is GenericUiState.Success
 
             when (state) {
-                is HomeUiState.Empty -> textView.text = getString(R.string.search_empty)
-                is HomeUiState.Error -> textView.text = getString(R.string.search_error, state.code)
-                is HomeUiState.Success -> searchItemsAdapter.submitList(state.data)
+                is GenericUiState.Empty -> textView.text = getString(R.string.search_empty)
+                is GenericUiState.Error -> textView.text = getString(R.string.search_error, state.code)
+                is GenericUiState.Success -> searchItemsAdapter.submitList(state.data)
                 else -> {}
             }
         }

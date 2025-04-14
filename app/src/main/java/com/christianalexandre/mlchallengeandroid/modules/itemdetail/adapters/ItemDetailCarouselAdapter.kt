@@ -1,12 +1,17 @@
 package com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ItemCarrouselBinding
+import com.christianalexandre.mlchallengeandroid.modules.util.extensions.startAnimation
 
 class ItemDetailCarouselAdapter(
+    private val context: Context,
     private val items: List<String>
 ) : RecyclerView.Adapter<ItemDetailCarouselAdapter.CarouselViewHolder>() {
 
@@ -32,7 +37,9 @@ class ItemDetailCarouselAdapter(
 
         Glide.with(holder.imageView.context)
             .load(imageUrl)
-            .centerCrop()
+            .fitCenter()
+            .placeholder(AppCompatResources.getDrawable(context, R.drawable.loading_spinner)?.startAnimation())
+            .error(R.drawable.ic_error)
             .into(holder.imageView)
     }
 }

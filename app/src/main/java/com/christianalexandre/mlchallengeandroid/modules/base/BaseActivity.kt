@@ -2,6 +2,7 @@ package com.christianalexandre.mlchallengeandroid.modules.base
 
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import com.christianalexandre.mlchallengeandroid.databinding.ActivityHomeBinding
 import com.google.android.material.appbar.MaterialToolbar
 
 abstract class BaseActivity : AppCompatActivity() {

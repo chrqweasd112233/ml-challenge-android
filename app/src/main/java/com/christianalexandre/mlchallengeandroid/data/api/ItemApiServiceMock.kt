@@ -21,7 +21,7 @@ class ItemApiServiceMock @Inject constructor(
     // TODO: remove repetitive code
     override suspend fun search(query: String): ApiResponse<SearchResponseDTO> {
         val fileName = "search-MLA-$query.json"
-        delay(500)
+        delay(1000)
         return try {
             val json = readJsonFromAssets(context, fileName)
             val result = Gson().fromJson(json, SearchResponseDTO::class.java)
@@ -38,7 +38,7 @@ class ItemApiServiceMock @Inject constructor(
 
     override suspend fun getItemDetail(itemId: String): ApiResponse<ItemDetailDTO> {
         val fileName = "item-$itemId.json"
-        delay(500)
+        delay(3000)
         return try {
             val json = readJsonFromAssets(context, fileName)
             val result = Gson().fromJson(json, ItemDetailDTO::class.java)
@@ -55,7 +55,7 @@ class ItemApiServiceMock @Inject constructor(
 
     override suspend fun getItemDescription(itemId: String): ApiResponse<ItemDescriptionDTO> {
         val fileName = "item-$itemId-description.json"
-        delay(500)
+        delay(1000)
         return try {
             val json = readJsonFromAssets(context, fileName)
             val result = Gson().fromJson(json, ItemDescriptionDTO::class.java)

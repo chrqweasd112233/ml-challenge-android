@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.modules.util.manager
+package com.christianalexandre.mlchallengeandroid.modules.util.managers
 
 import android.content.SharedPreferences
 import com.google.gson.Gson

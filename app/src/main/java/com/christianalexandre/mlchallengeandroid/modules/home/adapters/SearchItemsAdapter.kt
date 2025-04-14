@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ItemSearchBinding
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
+import com.christianalexandre.mlchallengeandroid.modules.util.extensions.startAnimation
 
 
 class SearchItemsAdapter(
@@ -46,7 +48,9 @@ class SearchItemsAdapter(
 
         Glide.with(holder.imageView.context)
             .load(item.thumbnail)
-            .centerCrop()
+            .fitCenter()
+            .placeholder(AppCompatResources.getDrawable(context, R.drawable.loading_spinner)?.startAnimation())
+            .error(R.drawable.ic_error)
             .into(holder.imageView)
 
         with(holder) {

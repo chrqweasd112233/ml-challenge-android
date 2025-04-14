@@ -19,7 +19,7 @@ import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchHis
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchItemsAdapter
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailActivity
 import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
-import com.christianalexandre.mlchallengeandroid.modules.util.manager.PreferencesManager
+import com.christianalexandre.mlchallengeandroid.modules.util.managers.PreferencesManager
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +32,9 @@ class HomeActivity : BaseActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var historyAdapter: SearchHistoryAdapter
     private lateinit var searchItemsAdapter: SearchItemsAdapter
-    @Inject lateinit var preferencesManager: PreferencesManager
+
+    @Inject
+    lateinit var preferencesManager: PreferencesManager
 
     // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,11 +109,11 @@ class HomeActivity : BaseActivity() {
             progressIndicator.isVisible = state is HomeUiState.Loading
             searchItemsRecyclerView.isVisible = state is HomeUiState.Success
 
-            when(state) {
+            when (state) {
                 is HomeUiState.Empty -> textView.text = getString(R.string.search_empty)
                 is HomeUiState.Error -> textView.text = getString(R.string.search_error, state.code)
                 is HomeUiState.Success -> searchItemsAdapter.submitList(state.data)
-                else -> { }
+                else -> {}
             }
         }
     }

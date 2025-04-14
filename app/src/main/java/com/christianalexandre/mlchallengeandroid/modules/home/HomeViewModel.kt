@@ -24,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val repository: ItemRepository
 ) : ViewModel() {
 
-    private val _searchItemsState = MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)
+    private val _searchItemsState =
+        MutableStateFlow<HomeUiState<List<SearchItem>>>(HomeUiState.Uninitialized)
 
     // region Public Observers
     val searchItemsState: StateFlow<HomeUiState<List<SearchItem>>> = _searchItemsState

@@ -12,6 +12,15 @@
         <include android:id="@+id/include_top_bar"
             layout="@layout/custom_top_bar" />
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/top_loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:indicatorColor="@color/yellow_variant"
+            app:trackColor="@color/grey_primary"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,22 +39,48 @@
                     android:orientation="vertical"
                     style="@style/SectionCardStyle">
 
-                    <TextView
-                        android:id="@+id/item_title"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/HomeTextView"
-                        tools:text="Titulo do produto">
-                    </TextView>
+                        android:layout_height="wrap_content">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/carousel_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="256dp"
-                        android:layout_marginTop="16dp"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        tools:listitem="@layout/item_carrousel"/>
+                        <TextView
+                            android:id="@+id/item_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            style="@style/HomeTextView"
+                            tools:text="Titulo do produto">
+                        </TextView>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/carousel_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="256dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintTop_toBottomOf="@id/item_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            tools:listitem="@layout/item_carrousel"/>
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/carousel_loading_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:layout_constraintTop_toBottomOf="@id/item_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:visibility="visible"
+                            android:indeterminate="true" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -100,6 +135,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/specification_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     style="@style/SectionCardStyle"
@@ -118,11 +154,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
+                        android:visibility="gone"
                         tools:listitem="@layout/item_specification"/>
 
                     <Button
                         style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                        android:id="@+id/textButton"
+                        android:id="@+id/specification_button"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:layout_width="match_parent"
@@ -130,11 +167,26 @@
                         android:text="@string/item_all_specification"
                         android:textColor="@color/colorOnPrimary"
                         app:strokeColor="@color/colorOnPrimary"
+                        android:visibility="gone"
                         />
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/specification_loading_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:layout_constraintTop_toBottomOf="@id/item_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        android:indeterminate="true" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/description_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     style="@style/SectionCardStyle"
@@ -154,6 +206,19 @@
                         android:textSize="14sp"
                         tools:text="Place Holder">
                     </TextView>
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/description_loading_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:layout_constraintTop_toBottomOf="@id/item_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        android:indeterminate="true" />
 
                 </LinearLayout>
 

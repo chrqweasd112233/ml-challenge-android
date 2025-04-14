@@ -36,8 +36,9 @@ class ItemDetailViewModel @Inject constructor(
     // region Public Observers
     val itemsDetailState: StateFlow<ItemDetailUiState<ItemDetail>> = _itemsDetailState
     val itemDescriptionState: StateFlow<ItemDetailUiState<String>> = _itemDescriptionState
-    val topLoadingState: StateFlow<Boolean> = combine(_itemsDetailState, _itemDescriptionState)
-    { detailState, descriptionState ->
+    val topLoadingState: StateFlow<Boolean> = combine(
+        _itemsDetailState, _itemDescriptionState
+    ) { detailState, descriptionState ->
         detailState is ItemDetailUiState.Loading || descriptionState is ItemDetailUiState.Loading
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
     // endregion

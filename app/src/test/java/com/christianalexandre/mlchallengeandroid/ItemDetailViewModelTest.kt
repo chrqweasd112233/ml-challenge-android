@@ -41,12 +41,10 @@ class ItemDetailViewModelTest {
     @Test
     fun `fetch item detail state with success from api to test Detail State`() = runTest {
         val responseDetailMock = ApiResponse.Success(SearchMockManager.itemDetailMock)
-        val responseDescriptionMock = ApiResponse.Success(SearchMockManager.itemDescriptionMock)
 
         coEvery { itemRepository.getItemDetail("mock") } returns responseDetailMock
-        coEvery { itemRepository.getItemDescription("mock") } returns responseDescriptionMock
 
-        itemDetailViewModel.fetchInformation("mock")
+        itemDetailViewModel.fetchDetail("mock")
 
         itemDetailViewModel.itemsDetailState.test {
             assertTrue(awaitItem() is GenericUiState.Uninitialized)
@@ -60,13 +58,10 @@ class ItemDetailViewModelTest {
     fun `fetch item detail state with success when data has nullable values to test Detail State`() =
         runTest {
             val responseDetailMock = ApiResponse.Success(SearchMockManager.itemDetailNullableMock)
-            val responseDescriptionMock =
-                ApiResponse.Success(SearchMockManager.itemDescriptionNullableMock)
 
             coEvery { itemRepository.getItemDetail("mock") } returns responseDetailMock
-            coEvery { itemRepository.getItemDescription("mock") } returns responseDescriptionMock
 
-            itemDetailViewModel.fetchInformation("mock")
+            itemDetailViewModel.fetchDetail("mock")
 
             itemDetailViewModel.itemsDetailState.test {
                 assertTrue(awaitItem() is GenericUiState.Uninitialized)
@@ -81,11 +76,8 @@ class ItemDetailViewModelTest {
         coEvery { itemRepository.getItemDetail("mock") } returns ApiResponse.Error(
             ApiException(500, "Exception mock")
         )
-        coEvery { itemRepository.getItemDescription("mock") } returns ApiResponse.Error(
-            ApiException(500, "Exception mock")
-        )
 
-        itemDetailViewModel.fetchInformation("mock")
+        itemDetailViewModel.fetchDetail("mock")
 
         itemDetailViewModel.itemsDetailState.test {
             assertTrue(awaitItem() is GenericUiState.Uninitialized)
@@ -100,13 +92,11 @@ class ItemDetailViewModelTest {
     @Test
     fun `fetch item description information with success api result to test Description State`() =
         runTest {
-            val responseDetailMock = ApiResponse.Success(SearchMockManager.itemDetailMock)
             val responseDescriptionMock = ApiResponse.Success(SearchMockManager.itemDescriptionMock)
 
-            coEvery { itemRepository.getItemDetail("mock") } returns responseDetailMock
             coEvery { itemRepository.getItemDescription("mock") } returns responseDescriptionMock
 
-            itemDetailViewModel.fetchInformation("mock")
+            itemDetailViewModel.fetchDescription("mock")
 
             itemDetailViewModel.itemDescriptionState.test {
                 assertTrue(awaitItem() is GenericUiState.Uninitialized)
@@ -119,14 +109,12 @@ class ItemDetailViewModelTest {
     @Test
     fun `fetch item description information with success when data has nullable values to test Description State`() =
         runTest {
-            val responseDetailMock = ApiResponse.Success(SearchMockManager.itemDetailNullableMock)
             val responseDescriptionMock =
                 ApiResponse.Success(SearchMockManager.itemDescriptionNullableMock)
 
-            coEvery { itemRepository.getItemDetail("mock") } returns responseDetailMock
             coEvery { itemRepository.getItemDescription("mock") } returns responseDescriptionMock
 
-            itemDetailViewModel.fetchInformation("mock")
+            itemDetailViewModel.fetchDescription("mock")
 
             itemDetailViewModel.itemDescriptionState.test {
                 assertTrue(awaitItem() is GenericUiState.Uninitialized)
@@ -138,14 +126,11 @@ class ItemDetailViewModelTest {
 
     @Test
     fun `fetch item description with error api result`() = runTest {
-        coEvery { itemRepository.getItemDetail("mock") } returns ApiResponse.Error(
-            ApiException(500, "Exception mock")
-        )
         coEvery { itemRepository.getItemDescription("mock") } returns ApiResponse.Error(
             ApiException(500, "Exception mock")
         )
 
-        itemDetailViewModel.fetchInformation("mock")
+        itemDetailViewModel.fetchDescription("mock")
 
         itemDetailViewModel.itemDescriptionState.test {
             assertTrue(awaitItem() is GenericUiState.Uninitialized)
@@ -156,4 +141,55 @@ class ItemDetailViewModelTest {
     }
     // endregion
 
+    // region Item Category
+    @Test
+    fun `fetch item category information with success api result to test Category State`() =
+        runTest {
+            val responseMock = ApiResponse.Success(SearchMockManager.itemCategorynMock)
+
+            coEvery { itemRepository.getItemCategory("mock") } returns responseMock
+
+            itemDetailViewModel.fetchCategory("mock")
+
+            itemDetailViewModel.itemCategoryState.test {
+                assertTrue(awaitItem() is GenericUiState.Uninitialized)
+                assertTrue(awaitItem() is GenericUiState.Loading)
+                assertTrue(awaitItem() is GenericUiState.Success)
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `fetch item category information with success when data has nullable values to test Category State`() =
+        runTest {
+            val responseMock = ApiResponse.Success(SearchMockManager.itemCategoryMockNullableMock)
+
+            coEvery { itemRepository.getItemCategory("mock") } returns responseMock
+
+            itemDetailViewModel.fetchCategory("mock")
+
+            itemDetailViewModel.itemCategoryState.test {
+                assertTrue(awaitItem() is GenericUiState.Uninitialized)
+                assertTrue(awaitItem() is GenericUiState.Loading)
+                assertTrue(awaitItem() is GenericUiState.Success)
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `fetch item category with error api result`() = runTest {
+        coEvery { itemRepository.getItemCategory("mock") } returns ApiResponse.Error(
+            ApiException(500, "Exception mock")
+        )
+
+        itemDetailViewModel.fetchCategory("mock")
+
+        itemDetailViewModel.itemCategoryState.test {
+            assertTrue(awaitItem() is GenericUiState.Uninitialized)
+            assertTrue(awaitItem() is GenericUiState.Loading)
+            assertTrue(awaitItem() is GenericUiState.Error)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+    // endregion
 }

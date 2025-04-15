@@ -45,26 +45,34 @@ class ItemDetailViewModel @Inject constructor(
 
     fun fetchInformation(itemId: String?) {
         if (itemId == null) return
+        fetchDetail(itemId)
+        fetchDescription(itemId)
+        fetchCategory(itemId)
+    }
+
+    fun fetchDetail(itemId: String) {
         viewModelScope.launch {
-            launch {
-                _itemsDetailState.value = GenericUiState.Loading
-                _itemDescriptionState.value = GenericUiState.Loading
-                _itemCategoryState.value = GenericUiState.Loading
-            }
-
+            _itemsDetailState.value = GenericUiState.Loading
             withContext(Dispatchers.IO) {
-                launch {
-                    _itemsDetailState.value = handleResult(repository.getItemDetail(itemId))
-                }
+                _itemsDetailState.value = handleResult(repository.getItemDetail(itemId))
+            }
+        }
+    }
 
-                launch {
-                    _itemDescriptionState.value =
-                        handleResult(repository.getItemDescription(itemId))
-                }
+    fun fetchDescription(itemId: String) {
+        viewModelScope.launch {
+            _itemDescriptionState.value = GenericUiState.Loading
+            withContext(Dispatchers.IO) {
+                _itemDescriptionState.value = handleResult(repository.getItemDescription(itemId))
+            }
+        }
+    }
 
-                launch {
-                    _itemCategoryState.value = handleResult(repository.getItemCategory(itemId))
-                }
+    fun fetchCategory(itemId: String) {
+        viewModelScope.launch {
+            _itemCategoryState.value = GenericUiState.Loading
+            withContext(Dispatchers.IO) {
+                _itemCategoryState.value = handleResult(repository.getItemCategory(itemId))
             }
         }
     }

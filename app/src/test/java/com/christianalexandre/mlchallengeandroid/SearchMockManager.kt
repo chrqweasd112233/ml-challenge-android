@@ -14,6 +14,7 @@ import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.SellerDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.ShippingDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
+import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 
 object SearchMockManager {
@@ -47,7 +48,8 @@ object SearchMockManager {
                         key = "key mock",
                         value = "value mock"
                     )
-                )
+                ),
+                permalink = "link mock",
             )
         )
     )
@@ -70,7 +72,8 @@ object SearchMockManager {
                 officialStoreName = null,
                 shipping = null,
                 seller = null,
-                attributes = null
+                attributes = null,
+                permalink = null
             )
         )
     )
@@ -159,12 +162,12 @@ object SearchMockManager {
         )
     )
 
-    val itemCategorynMock = itemCategoryDTOMock.toDomain()
+    val itemCategorynMock: ItemCategory? = itemCategoryDTOMock.toDomain()
 
     val itemCategoryDTOMockNullableMock = ItemCategoryDTO(
         pathFromRoot = null
     )
 
-    val itemCategoryMockNullableMock = itemCategoryDTOMockNullableMock.toDomain()
+    val itemCategoryMockNullableMock: ItemCategory? = itemCategoryDTOMockNullableMock.toDomain()
     // endregion
 }

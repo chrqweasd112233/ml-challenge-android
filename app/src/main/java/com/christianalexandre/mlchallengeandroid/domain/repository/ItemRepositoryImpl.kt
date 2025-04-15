@@ -1,7 +1,6 @@
 package com.christianalexandre.mlchallengeandroid.domain.repository
 
 import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
-import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCategoryDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain

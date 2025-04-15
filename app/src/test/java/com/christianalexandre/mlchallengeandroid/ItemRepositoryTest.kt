@@ -1,7 +1,8 @@
 package com.christianalexandre.mlchallengeandroid
 
 import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
-import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDescriptionDTO
+import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCategoryDTO
+import com.christianalexandre.mlchallengeandroid.data.model.itemdescription.ItemDescriptionDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDetailDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
@@ -156,6 +157,44 @@ class ItemRepositoryTest {
 
         assertTrue(result is ApiResponse.Success)
         assertEquals(null, result.data)
+    }
+    // endregion
+
+    // region Item Category
+    @Test
+    fun `test get item category success`() = runTest {
+        val responseMock = ApiResponse.Success(SearchMockManager.itemCategoryDTOMock)
+
+        coEvery { mockItemApiService.getItemCategory("mock") } returns responseMock
+
+        val result = itemRepository.getItemCategory("mock")
+
+        assertTrue(result is ApiResponse.Success)
+        assertNotNull((result as ApiResponse.Success).data)
+    }
+
+    @Test
+    fun `test get item category error`() = runTest {
+        val responseMock = ApiResponse.Error<ItemCategoryDTO>(ApiException(500, "Exception mock"))
+
+        coEvery { mockItemApiService.getItemCategory("mock") } returns responseMock
+
+        val result = itemRepository.getItemCategory("mock")
+
+        assertTrue(result is ApiResponse.Error)
+        assertEquals("Exception mock", result.error?.message)
+    }
+
+    @Test
+    fun `test get item category success when data has nullable values`() = runTest {
+        val responseMock = ApiResponse.Success(SearchMockManager.itemCategoryDTOMockNullableMock)
+
+        coEvery { mockItemApiService.getItemCategory("mock") } returns responseMock
+
+        val result = itemRepository.getItemCategory("mock")
+
+        assertTrue(result is ApiResponse.Success)
+        assertEquals(null, result.data?.pathFromRoot)
     }
     // endregion
 }

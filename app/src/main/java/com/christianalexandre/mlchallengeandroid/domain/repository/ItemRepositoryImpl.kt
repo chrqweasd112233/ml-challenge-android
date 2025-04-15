@@ -1,10 +1,13 @@
 package com.christianalexandre.mlchallengeandroid.domain.repository
 
 import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
+import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCategoryDTO
+import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
+import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import javax.inject.Inject
@@ -32,6 +35,13 @@ class ItemRepositoryImpl @Inject constructor(
         return when(val result = itemApiService.getItemDescription(itemId)) {
             is ApiResponse.Error -> ApiResponse.Error(result.error)
             is ApiResponse.Success -> ApiResponse.Success(result.data?.plainText)
+        }
+    }
+
+    override suspend fun getItemCategory(itemId: String): ApiResponse<ItemCategory?> {
+        return when(val result = itemApiService.getItemCategory(itemId)) {
+            is ApiResponse.Error -> ApiResponse.Error(result.error)
+            is ApiResponse.Success -> ApiResponse.Success(result.data?.toDomain())
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.christianalexandre.mlchallengeandroid
 
-import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDescriptionDTO
+import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCategoryDTO
+import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.PathFromRootDTO
+import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.toDomain
+import com.christianalexandre.mlchallengeandroid.data.model.itemdescription.ItemDescriptionDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDetailDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.PictureDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
@@ -144,5 +147,24 @@ object SearchMockManager {
     )
 
     val itemDescriptionNullableMock = itemDescriptionDTONullableMock.plainText
+    // endregion
+
+    // region Item Category
+    val itemCategoryDTOMock = ItemCategoryDTO(
+        pathFromRoot = listOf(
+            PathFromRootDTO(
+                id = "mock id",
+                name = "mock name"
+            )
+        )
+    )
+
+    val itemCategorynMock = itemCategoryDTOMock.toDomain()
+
+    val itemCategoryDTOMockNullableMock = ItemCategoryDTO(
+        pathFromRoot = null
+    )
+
+    val itemCategoryMockNullableMock = itemCategoryDTOMockNullableMock.toDomain()
     // endregion
 }

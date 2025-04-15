@@ -57,6 +57,8 @@ class ItemDetailViewModel @Inject constructor(
                 }
 
                 launch {
+                    repository.getItemCategory(itemId)
+
                     _itemDescriptionState.value =
                         when (val result = repository.getItemDescription(itemId)) {
                             is ApiResponse.Error -> GenericUiState.Error(result.error?.code)

@@ -1,5 +1,6 @@
 package com.christianalexandre.mlchallengeandroid.modules.itemdetail
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
 import android.widget.Toast
@@ -31,6 +32,7 @@ class ItemDetailActivity : BaseActivity() {
     private lateinit var binding: ActivityItemDetailBinding
     private val viewModel: ItemDetailViewModel by viewModels()
     private lateinit var searchItem: SearchItem
+    private lateinit var specAdapter: ItemDetailSpecAdapter
 
     // region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,11 +98,13 @@ class ItemDetailActivity : BaseActivity() {
     }
 
     private fun setupSpecsView(specificationMap: Map<String, String>) {
+        specAdapter = ItemDetailSpecAdapter(specificationMap.take(5))
         with(binding) {
+            specificationButton.isVisible = specificationMap.entries.size >= 5
             specificationButton.setOnClickListener { goToSpecsList(specificationMap) }
             with(specificationRecyclerView) {
                 layoutManager = LinearLayoutManager(this@ItemDetailActivity)
-                adapter = ItemDetailSpecAdapter(specificationMap.take(5))
+                adapter = this@ItemDetailActivity.specAdapter
             }
         }
     }
@@ -153,7 +157,8 @@ class ItemDetailActivity : BaseActivity() {
     }
 
     private fun goToSpecsList(specificationMap: Map<String, String>) {
-        Toast.makeText(this, "WIP", Toast.LENGTH_SHORT).show()
+        specAdapter.updateItems(specificationMap)
+        binding.specificationButton.isVisible = false
     }
     // endregion
 }

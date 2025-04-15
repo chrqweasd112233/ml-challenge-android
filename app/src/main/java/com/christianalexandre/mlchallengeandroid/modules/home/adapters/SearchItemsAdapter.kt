@@ -1,9 +1,7 @@
 package com.christianalexandre.mlchallengeandroid.modules.home.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources

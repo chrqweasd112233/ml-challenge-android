@@ -1,12 +1,13 @@
 package com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.christianalexandre.mlchallengeandroid.databinding.ItemSpecificationBinding
 
 class ItemDetailSpecAdapter(
-    private val items: Map<String, String>
+    var items: Map<String, String>
 ) : RecyclerView.Adapter<ItemDetailSpecAdapter.SpecificationViewHolder>() {
 
     inner class SpecificationViewHolder(
@@ -34,5 +35,11 @@ class ItemDetailSpecAdapter(
             key.text = item.key
             value.text = item.value
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateItems(items: Map<String, String>) {
+        this.items = items
+        notifyDataSetChanged()
     }
 }

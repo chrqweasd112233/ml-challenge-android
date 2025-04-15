@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.Mlchallengeandroid" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/yellow_primary</item>
-        <item name="colorPrimaryVariant">@color/yellow_variant</item>
+        <item name="colorPrimaryVariant">@color/yellow_primary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
 
         <item name="colorSecondary">@color/blue_secondary</item>
@@ -9,6 +9,7 @@
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="android:colorBackground">@color/background</item>
         <item name="colorOnBackground">@color/onBackground</item>

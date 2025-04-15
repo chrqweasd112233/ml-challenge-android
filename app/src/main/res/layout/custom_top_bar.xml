@@ -9,7 +9,7 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/yellow_variant"
+        android:background="@color/yellow_primary"
         app:layout_scrollFlags="scroll|enterAlways"
         tools:title="Top bar title" />
 

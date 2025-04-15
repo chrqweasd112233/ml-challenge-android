@@ -79,7 +79,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setupSearchItemsRecyclerView() {
-        searchItemsAdapter = SearchItemsAdapter(baseContext) { goToDetail(it) }
+        searchItemsAdapter = SearchItemsAdapter(baseContext, emptyList()) { goToDetail(it) }
         with(binding.searchItemsRecyclerView) {
             layoutManager = LinearLayoutManager(this@HomeActivity)
             adapter = this@HomeActivity.searchItemsAdapter
@@ -113,7 +113,7 @@ class HomeActivity : BaseActivity() {
             when (state) {
                 is GenericUiState.Empty -> textView.text = getString(R.string.search_empty)
                 is GenericUiState.Error -> textView.text = getString(R.string.search_error, state.code)
-                is GenericUiState.Success -> searchItemsAdapter.submitList(state.data)
+                is GenericUiState.Success -> searchItemsAdapter.updateItems(state.data)
                 else -> {}
             }
         }

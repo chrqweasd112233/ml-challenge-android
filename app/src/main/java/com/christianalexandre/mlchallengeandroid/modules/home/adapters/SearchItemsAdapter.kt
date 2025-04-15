@@ -1,13 +1,12 @@
 package com.christianalexandre.mlchallengeandroid.modules.home.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.christianalexandre.mlchallengeandroid.R
@@ -18,8 +17,9 @@ import com.christianalexandre.mlchallengeandroid.modules.util.extensions.startAn
 
 class SearchItemsAdapter(
     private val context: Context,
+    private var items: List<SearchItem>,
     private val onItemClickCallback: (SearchItem) -> Unit
-) : ListAdapter<SearchItem, SearchItemsAdapter.SearchItemsViewHolder>(DiffCallback) {
+) : RecyclerView.Adapter<SearchItemsAdapter.SearchItemsViewHolder>() {
 
     inner class SearchItemsViewHolder(
         val binding: ItemSearchBinding
@@ -41,8 +41,10 @@ class SearchItemsAdapter(
         return SearchItemsViewHolder(binding)
     }
 
+    override fun getItemCount() = items.size
+
     override fun onBindViewHolder(holder: SearchItemsViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = items[position]
 
         Glide.with(holder.imageView.context)
             .load(item.thumbnail)
@@ -67,13 +69,9 @@ class SearchItemsAdapter(
         }
     }
 
-    object DiffCallback : DiffUtil.ItemCallback<SearchItem>() {
-        override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-            return oldItem == newItem
-        }
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateItems(items: List<SearchItem>) {
+        this.items = items
+        notifyDataSetChanged()
     }
 }

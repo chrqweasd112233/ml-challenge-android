@@ -62,10 +62,23 @@
                             app:layout_constraintTop_toBottomOf="@id/item_title"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             android:clipChildren="false"
                             android:clipToPadding="false"
                             tools:listitem="@layout/item_carrousel"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/sale_terms_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/carousel_recycler_view"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:visibility="visible"
+                            tools:listitem="@layout/item_specification"
+                            tools:itemCount="2"/>
 
                         <com.google.android.material.progressindicator.CircularProgressIndicator
                             android:id="@+id/carousel_loading_view"

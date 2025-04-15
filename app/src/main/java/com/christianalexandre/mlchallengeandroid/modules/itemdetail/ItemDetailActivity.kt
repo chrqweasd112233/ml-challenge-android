@@ -1,6 +1,5 @@
 package com.christianalexandre.mlchallengeandroid.modules.itemdetail
 
-import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
 import android.widget.Toast
@@ -90,6 +89,15 @@ class ItemDetailActivity : BaseActivity() {
         }
     }
 
+    private fun setupExtraInformationView(extraInfo: Map<String, String>) {
+        with(binding) {
+            with(saleTermsRecyclerView) {
+                layoutManager = LinearLayoutManager(this@ItemDetailActivity)
+                adapter = ItemDetailSpecAdapter(extraInfo)
+            }
+        }
+    }
+
     private fun setupCarouselRecyclerView(imageList: List<String>) {
         with(binding.carouselRecyclerView) {
             setLayoutManager(CarouselLayoutManager())
@@ -128,6 +136,7 @@ class ItemDetailActivity : BaseActivity() {
 
             is GenericUiState.Success -> {
                 val data = genericUiState.data
+                data.saleTerms?.let { setupExtraInformationView(it) }
                 data.pictures?.let { setupCarouselRecyclerView(it) }
                 data.attributes?.let { setupSpecsView(it) }
             }

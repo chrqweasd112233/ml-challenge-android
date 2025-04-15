@@ -18,7 +18,8 @@ data class SearchItemDTO(
     val officialStoreName: String?,
     val shipping: ShippingDTO?,
     val seller: SellerDTO?,
-    val attributes: List<AttributesDTO>?
+    val attributes: List<AttributesDTO>?,
+    val permalink: String?
 )
 
 fun SearchItemDTO.toDomain() = SearchItem(
@@ -32,5 +33,6 @@ fun SearchItemDTO.toDomain() = SearchItem(
     officialStoreName = this.officialStoreName,
     freeShipping = this.shipping?.freeShipping,
     seller = this.seller,
-    attributes = this.attributes?.toDictionary()
+    attributes = this.attributes?.toDictionary(),
+    permalink = this.permalink
 )

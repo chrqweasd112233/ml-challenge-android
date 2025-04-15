@@ -11,5 +11,6 @@ data class SearchItem(
     val officialStoreName: String?,
     val freeShipping: Boolean?,
     val seller: Any?,
-    val attributes: Map<String, String>?
+    val attributes: Map<String, String>?,
+    val permalink: String?
 )

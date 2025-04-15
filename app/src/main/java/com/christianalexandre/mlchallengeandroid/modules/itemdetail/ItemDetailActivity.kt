@@ -1,7 +1,9 @@
 package com.christianalexandre.mlchallengeandroid.modules.itemdetail
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -44,8 +46,14 @@ class ItemDetailActivity : BaseActivity() {
         if (savedInstanceState == null) setupFragments()
         setupLayoutInfo()
         setupObservers()
+        setupShareButton()
 
         viewModel.fetchInformation(searchItem.id)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_item_detail, menu)
+        return super.onCreateOptionsMenu(menu)
     }
     // endregion
 
@@ -124,6 +132,18 @@ class ItemDetailActivity : BaseActivity() {
             }
         }
     }
+
+    private fun setupShareButton() {
+        binding.includeTopBar.topBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.share_button -> {
+                    shareButtonTapped()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
     // endregion
 
     // region Action Methods
@@ -179,6 +199,15 @@ class ItemDetailActivity : BaseActivity() {
     private fun goToSpecsList(specificationMap: Map<String, String>) {
         specAdapter.updateItems(specificationMap)
         binding.specificationButton.isVisible = false
+    }
+
+    private fun shareButtonTapped() {
+        val share = Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, searchItem.permalink)
+            type = "text/plain"
+        }, null)
+        startActivity(share)
     }
     // endregion
 }

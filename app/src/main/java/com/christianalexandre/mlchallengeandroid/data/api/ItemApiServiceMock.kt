@@ -17,64 +17,35 @@ import javax.inject.Singleton
 class ItemApiServiceMock @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ItemApiService {
-    // TODO: remove repetitive code
     override suspend fun search(query: String): ApiResponse<SearchResponseDTO> {
         val fileName = "search-MLA-$query.json"
         delay(1000)
-        return try {
-            val json = readJsonFromAssets(context, fileName)
-            val result = Gson().fromJson(json, SearchResponseDTO::class.java)
-            ApiResponse.Success(result)
-        } catch (e: Exception) {
-            ApiResponse.Error(
-                ApiException(
-                    code = 500,
-                    message = e.localizedMessage ?: "Failure parsing json"
-                )
-            )
-        }
+        return parseJsonFromAssets(context, fileName)
     }
 
     override suspend fun getItemDetail(itemId: String): ApiResponse<ItemDetailDTO> {
         val fileName = "item-$itemId.json"
         delay(3000)
-        return try {
-            val json = readJsonFromAssets(context, fileName)
-            val result = Gson().fromJson(json, ItemDetailDTO::class.java)
-            ApiResponse.Success(result)
-        } catch (e: Exception) {
-            ApiResponse.Error(
-                ApiException(
-                    code = 500,
-                    message = e.localizedMessage ?: "Failure parsing json"
-                )
-            )
-        }
+        return parseJsonFromAssets(context, fileName)
     }
 
     override suspend fun getItemDescription(itemId: String): ApiResponse<ItemDescriptionDTO> {
         val fileName = "item-$itemId-description.json"
         delay(1000)
-        return try {
-            val json = readJsonFromAssets(context, fileName)
-            val result = Gson().fromJson(json, ItemDescriptionDTO::class.java)
-            ApiResponse.Success(result)
-        } catch (e: Exception) {
-            ApiResponse.Error(
-                ApiException(
-                    code = 500,
-                    message = e.localizedMessage ?: "Failure parsing json"
-                )
-            )
-        }
+        return parseJsonFromAssets(context, fileName)
     }
 
     override suspend fun getItemCategory(itemId: String): ApiResponse<ItemCategoryDTO> {
         val fileName = "item-$itemId-category.json"
         delay(1000)
+        return parseJsonFromAssets(context, fileName)
+    }
+
+    private inline fun <reified T> parseJsonFromAssets(context: Context, fileName: String): ApiResponse<T> {
         return try {
-            val json = readJsonFromAssets(context, fileName)
-            val result = Gson().fromJson(json, ItemCategoryDTO::class.java)
+            val inputStream = context.assets.open(fileName)
+            val json = inputStream.bufferedReader().use { it.readText() }
+            val result = Gson().fromJson(json, T::class.java)
             ApiResponse.Success(result)
         } catch (e: Exception) {
             ApiResponse.Error(
@@ -85,9 +56,5 @@ class ItemApiServiceMock @Inject constructor(
             )
         }
     }
-}
 
-private fun ItemApiServiceMock.readJsonFromAssets(context: Context, fileName: String): String {
-    val inputStream = context.assets.open(fileName)
-    return inputStream.bufferedReader().use { it.readText() }
 }

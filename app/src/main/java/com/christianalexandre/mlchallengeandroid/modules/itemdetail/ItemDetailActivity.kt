@@ -121,10 +121,12 @@ class ItemDetailActivity : BaseActivity() {
     // region Action Methods
     private fun itemDetailStateMachine(genericUiState: GenericUiState<ItemDetail>) {
         with(binding) {
-            carouselLoadingView.isVisible = genericUiState !is GenericUiState.Success
-            specificationLoadingView.isVisible = genericUiState !is GenericUiState.Success
+            carouselLoadingView.isVisible = genericUiState is GenericUiState.Loading
+            specificationLoadingView.isVisible = genericUiState is GenericUiState.Loading
             specificationRecyclerView.isVisible = genericUiState is GenericUiState.Success
             specificationButton.isVisible = genericUiState is GenericUiState.Success
+            carouselErrorView.isVisible = genericUiState is GenericUiState.Error
+            specificationErrorView.isVisible = genericUiState is GenericUiState.Error
         }
 
         when (genericUiState) {
@@ -147,8 +149,9 @@ class ItemDetailActivity : BaseActivity() {
 
     private fun itemDescriptionStateMachine(genericUiState: GenericUiState<String>) {
         with(binding) {
-            descriptionLoadingView.isVisible = genericUiState !is GenericUiState.Success
+            descriptionLoadingView.isVisible = genericUiState is GenericUiState.Loading
             descriptionTextView.isVisible = genericUiState is GenericUiState.Success
+            descriptionErrorView.isVisible = genericUiState is GenericUiState.Error
         }
 
         when (genericUiState) {

@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(
                     result.data?.let {
                         if (it.isNotEmpty()) GenericUiState.Success(it)
                         else GenericUiState.Empty
-                    } ?: GenericUiState.Empty
+                    } ?: GenericUiState.Error(result.error?.code)
                 }
             }
 

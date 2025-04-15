@@ -21,4 +21,5 @@
 
     <!-- Item -->
     <color name="green_light">#3F9042</color>
+    <color name="category_grey">#F3F3F3</color>
 </resources>

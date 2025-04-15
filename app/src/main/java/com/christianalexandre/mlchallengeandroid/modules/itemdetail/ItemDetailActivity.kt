@@ -16,6 +16,7 @@ import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailCarouselAdapter
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailSpecAdapter
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.fragments.ItemCategoryFragment
 import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
 import com.christianalexandre.mlchallengeandroid.modules.util.extensions.take
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
@@ -40,10 +41,11 @@ class ItemDetailActivity : BaseActivity() {
         searchItem = getExtra()
         setupContentView()
         setupTopBar(binding.includeTopBar.topBar, R.string.item_detail_title)
+        if (savedInstanceState == null) setupFragments()
         setupLayoutInfo()
         setupObservers()
 
-        viewModel.fetchInformation(searchItem.id!!)
+        viewModel.fetchInformation(searchItem.id)
     }
     // endregion
 
@@ -56,6 +58,12 @@ class ItemDetailActivity : BaseActivity() {
     private fun setupContentView() {
         binding = ActivityItemDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    private fun setupFragments() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.category_fragment, ItemCategoryFragment())
+            .commit()
     }
 
     private fun setupLayoutInfo() {
@@ -119,17 +127,17 @@ class ItemDetailActivity : BaseActivity() {
     // endregion
 
     // region Action Methods
-    private fun itemDetailStateMachine(genericUiState: GenericUiState<ItemDetail>) {
+    private fun itemDetailStateMachine(state: GenericUiState<ItemDetail>) {
         with(binding) {
-            carouselLoadingView.isVisible = genericUiState is GenericUiState.Loading
-            specificationLoadingView.isVisible = genericUiState is GenericUiState.Loading
-            specificationRecyclerView.isVisible = genericUiState is GenericUiState.Success
-            specificationButton.isVisible = genericUiState is GenericUiState.Success
-            carouselErrorView.isVisible = genericUiState is GenericUiState.Error
-            specificationErrorView.isVisible = genericUiState is GenericUiState.Error
+            carouselLoadingView.isVisible = state is GenericUiState.Loading
+            specificationLoadingView.isVisible = state is GenericUiState.Loading
+            specificationRecyclerView.isVisible = state is GenericUiState.Success
+            specificationButton.isVisible = state is GenericUiState.Success
+            carouselErrorView.isVisible = state is GenericUiState.Error
+            specificationErrorView.isVisible = state is GenericUiState.Error
         }
 
-        when (genericUiState) {
+        when (state) {
             is GenericUiState.Error -> Toast.makeText(
                 this,
                 R.string.item_detail_error,
@@ -137,7 +145,7 @@ class ItemDetailActivity : BaseActivity() {
             ).show()
 
             is GenericUiState.Success -> {
-                val data = genericUiState.data
+                val data = state.data
                 data.saleTerms?.let { setupExtraInformationView(it) }
                 data.pictures?.let { setupCarouselRecyclerView(it) }
                 data.attributes?.let { setupSpecsView(it) }
@@ -147,14 +155,14 @@ class ItemDetailActivity : BaseActivity() {
         }
     }
 
-    private fun itemDescriptionStateMachine(genericUiState: GenericUiState<String>) {
+    private fun itemDescriptionStateMachine(state: GenericUiState<String>) {
         with(binding) {
-            descriptionLoadingView.isVisible = genericUiState is GenericUiState.Loading
-            descriptionTextView.isVisible = genericUiState is GenericUiState.Success
-            descriptionErrorView.isVisible = genericUiState is GenericUiState.Error
+            descriptionLoadingView.isVisible = state is GenericUiState.Loading
+            descriptionTextView.isVisible = state is GenericUiState.Success
+            descriptionErrorView.isVisible = state is GenericUiState.Error
         }
 
-        when (genericUiState) {
+        when (state) {
             is GenericUiState.Error -> Toast.makeText(
                 this,
                 R.string.item_detail_error,
@@ -162,7 +170,7 @@ class ItemDetailActivity : BaseActivity() {
             ).show()
 
             is GenericUiState.Success -> binding.descriptionTextView.text =
-                genericUiState.data
+                state.data
 
             else -> {}
         }

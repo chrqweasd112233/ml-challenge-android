@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
+import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,49 +27,55 @@ class ItemDetailViewModel @Inject constructor(
         MutableStateFlow<GenericUiState<ItemDetail>>(GenericUiState.Uninitialized)
     private val _itemDescriptionState =
         MutableStateFlow<GenericUiState<String>>(GenericUiState.Uninitialized)
+    private val _itemCategoryState =
+        MutableStateFlow<GenericUiState<ItemCategory>>(GenericUiState.Uninitialized)
 
     // region Public Observers
     val itemsDetailState: StateFlow<GenericUiState<ItemDetail>> = _itemsDetailState
     val itemDescriptionState: StateFlow<GenericUiState<String>> = _itemDescriptionState
+    val itemCategoryState: StateFlow<GenericUiState<ItemCategory>> = _itemCategoryState
     val topLoadingState: StateFlow<Boolean> = combine(
-        _itemsDetailState, _itemDescriptionState
-    ) { detailState, descriptionState ->
-        detailState is GenericUiState.Loading || descriptionState is GenericUiState.Loading
+        _itemsDetailState, _itemDescriptionState, _itemCategoryState
+    ) { detailState, descriptionState, itemCategoryState ->
+        detailState is GenericUiState.Loading ||
+                descriptionState is GenericUiState.Loading ||
+                itemCategoryState is GenericUiState.Loading
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
     // endregion
 
-    fun fetchInformation(itemId: String) {
+    fun fetchInformation(itemId: String?) {
+        if (itemId == null) return
         viewModelScope.launch {
             launch {
                 _itemsDetailState.value = GenericUiState.Loading
                 _itemDescriptionState.value = GenericUiState.Loading
+                _itemCategoryState.value = GenericUiState.Loading
             }
 
             withContext(Dispatchers.IO) {
                 launch {
-                    _itemsDetailState.value = when (val result = repository.getItemDetail(itemId)) {
-                        is ApiResponse.Error -> GenericUiState.Error(result.error?.code)
-                        is ApiResponse.Success -> {
-                            result.data?.let {
-                                GenericUiState.Success(it)
-                            } ?: GenericUiState.Error(500) // TODO: handle error
-                        }
-                    }
+                    _itemsDetailState.value = handleResult(repository.getItemDetail(itemId))
                 }
 
                 launch {
-                    repository.getItemCategory(itemId)
-
                     _itemDescriptionState.value =
-                        when (val result = repository.getItemDescription(itemId)) {
-                            is ApiResponse.Error -> GenericUiState.Error(result.error?.code)
-                            is ApiResponse.Success -> {
-                                result.data?.let {
-                                    GenericUiState.Success(it)
-                                } ?: GenericUiState.Error(500) // TODO: handle error
-                            }
-                        }
+                        handleResult(repository.getItemDescription(itemId))
                 }
+
+                launch {
+                    _itemCategoryState.value = handleResult(repository.getItemCategory(itemId))
+                }
+            }
+        }
+    }
+
+    private fun <T> handleResult(result: ApiResponse<T?>): GenericUiState<T> {
+        return when (result) {
+            is ApiResponse.Error -> GenericUiState.Error(result.error?.code)
+            is ApiResponse.Success -> {
+                result.data?.let {
+                    GenericUiState.Success(it)
+                } ?: GenericUiState.Error(result.error?.code)
             }
         }
     }

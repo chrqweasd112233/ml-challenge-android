@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.christianalexandre.mlchallengeandroid.databinding.ItemSpecificationBinding
 
 class ItemDetailSpecAdapter(
-    var items: Map<String, String>
+    private var items: Map<String, String>
 ) : RecyclerView.Adapter<ItemDetailSpecAdapter.SpecificationViewHolder>() {
 
     inner class SpecificationViewHolder(

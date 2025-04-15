@@ -15,6 +15,7 @@
     <string name="item_specification">Características do produto</string>
     <string name="item_all_specification">Conferir todas as características</string>
     <string name="item_description">Descrição</string>
+    <string name="item_category">Categoria</string>
 
     <!-- User Error -->
     <string name="item_detail_error">Houve um erro ao carregar todas as informações do produto</string>

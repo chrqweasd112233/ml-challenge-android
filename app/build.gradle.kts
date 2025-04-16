@@ -1,5 +1,3 @@
-import java.util.Locale
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -31,7 +29,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -81,34 +79,42 @@ kapt {
     correctErrorTypes = true
 }
 
-tasks.register<JacocoReport>("jacocoTestReport") {
-    dependsOn("testDebugUnitTest")
+tasks.register<JacocoReport>("jacocoFullReport") {
+    val fileFilter =
+        listOf(
+            "**/R.class",
+            "**/R$*.class",
+            "**/BuildConfig.*",
+            "**/Manifest*.*",
+            "**/*Test*.*",
+            "android/**/*.*",
+        )
+
+    dependsOn("testDebugUnitTest", "connectedDebugAndroidTest")
+
+    val javaClasses =
+        fileTree("$buildDir/intermediates/javac/debug/classes") {
+            exclude(fileFilter)
+        }
+    val kotlinClasses =
+        fileTree("$buildDir/tmp/kotlin-classes/debug") {
+            exclude(fileFilter)
+        }
+
+    classDirectories.setFrom(files(javaClasses, kotlinClasses))
+    sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
+
+    val emulator = "Pixel_7_Android_14(AVD) - 14"
+    executionData.setFrom(
+        files(
+            "$buildDir/jacoco/testDebugUnitTest.exec",
+            "$buildDir/outputs/code_coverage/debugAndroidTest/connected/$emulator/coverage.ec",
+        ),
+    )
 
     reports {
         xml.required.set(true)
         html.required.set(true)
         csv.required.set(false)
     }
-
-    val fileFilter = listOf(
-        "**/R.class",
-        "**/R$*.class",
-        "**/BuildConfig.*",
-        "**/Manifest*.*",
-        "**/*Test*.*",
-        "android/**/*.*"
-    )
-
-    val javaClasses = fileTree("${buildDir}/intermediates/javac/debug/classes") {
-        exclude(fileFilter)
-    }
-    val kotlinClasses = fileTree("${buildDir}/tmp/kotlin-classes/debug") {
-        exclude(fileFilter)
-    }
-
-    classDirectories.setFrom(files(javaClasses, kotlinClasses))
-    sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
-    executionData.setFrom(fileTree(buildDir) {
-        include("jacoco/testDebugUnitTest.exec", "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec")
-    })
 }

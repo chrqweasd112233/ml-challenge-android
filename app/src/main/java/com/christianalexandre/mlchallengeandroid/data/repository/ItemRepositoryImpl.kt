@@ -1,14 +1,14 @@
-package com.christianalexandre.mlchallengeandroid.domain.repository
+package com.christianalexandre.mlchallengeandroid.data.repository
 
 import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
-import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
 import javax.inject.Inject
 
 class ItemRepositoryImpl @Inject constructor(

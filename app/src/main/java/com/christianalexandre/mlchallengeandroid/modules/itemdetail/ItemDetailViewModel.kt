@@ -2,7 +2,7 @@ package com.christianalexandre.mlchallengeandroid.modules.itemdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail

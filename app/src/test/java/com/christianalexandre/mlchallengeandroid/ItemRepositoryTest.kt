@@ -6,10 +6,10 @@ import com.christianalexandre.mlchallengeandroid.data.model.itemdescription.Item
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDetailDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
-import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepositoryImpl
+import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepositoryImpl
 import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.mockk

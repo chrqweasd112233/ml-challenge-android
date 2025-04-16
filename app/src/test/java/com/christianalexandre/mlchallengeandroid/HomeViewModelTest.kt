@@ -1,7 +1,7 @@
 package com.christianalexandre.mlchallengeandroid
 
 import app.cash.turbine.test
-import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiException
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.modules.home.HomeViewModel

@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.data.repository
+package com.christianalexandre.mlchallengeandroid.domain.repository
 
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory

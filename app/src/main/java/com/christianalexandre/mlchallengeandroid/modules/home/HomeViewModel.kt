@@ -2,7 +2,7 @@ package com.christianalexandre.mlchallengeandroid.modules.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepository
+import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
 import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState

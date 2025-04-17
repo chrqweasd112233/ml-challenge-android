@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchItemsAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.christianalexandre.mlchallengeandroid.modules.home.adapters</a> &gt; <span class="el_source">SearchItemsAdapter.kt</span></div><h1>SearchItemsAdapter.kt</h1><pre class="source lang-java linenums">package com.christianalexandre.mlchallengeandroid.modules.home.adapters
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Paint
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.christianalexandre.domain.model.SearchItem
+import com.christianalexandre.mlchallengeandroid.R
+import com.christianalexandre.mlchallengeandroid.databinding.ItemSearchBinding
+import com.christianalexandre.mlchallengeandroid.modules.util.extensions.startAnimation
+
+
+<span class="fc" id="L18">class SearchItemsAdapter(</span>
+<span class="fc" id="L19">    private val context: Context,</span>
+<span class="fc" id="L20">    private var items: List&lt;SearchItem&gt;,</span>
+<span class="fc" id="L21">    private val onItemClickCallback: (SearchItem) -&gt; Unit</span>
+<span class="fc" id="L22">) : RecyclerView.Adapter&lt;SearchItemsAdapter.SearchItemsViewHolder&gt;() {</span>
+
+<span class="fc" id="L24">    inner class SearchItemsViewHolder(</span>
+<span class="fc" id="L25">        val binding: ItemSearchBinding</span>
+<span class="fc" id="L26">    ) : RecyclerView.ViewHolder(binding.root) {</span>
+<span class="fc" id="L27">        val imageView = binding.itemImageView</span>
+<span class="fc" id="L28">        val titleTextView = binding.titleTextView</span>
+<span class="fc" id="L29">        val sellerTextView = binding.sellerTextView</span>
+<span class="fc" id="L30">        val originalPriceTextView = binding.originalPriceTextView</span>
+<span class="fc" id="L31">        val priceTextView = binding.priceTextView</span>
+<span class="fc" id="L32">        val shippingTextView = binding.shippingTextView</span>
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchItemsViewHolder {
+<span class="fc" id="L36">        val binding = ItemSearchBinding.inflate(</span>
+<span class="fc" id="L37">            LayoutInflater.from(parent.context),</span>
+<span class="fc" id="L38">            parent,</span>
+<span class="fc" id="L39">            false</span>
+        )
+<span class="fc" id="L41">        return SearchItemsViewHolder(binding)</span>
+    }
+
+<span class="fc" id="L44">    override fun getItemCount() = items.size</span>
+
+    override fun onBindViewHolder(holder: SearchItemsViewHolder, position: Int) {
+<span class="fc" id="L47">        val item = items[position]</span>
+
+<span class="fc" id="L49">        Glide.with(holder.imageView.context)</span>
+<span class="fc" id="L50">            .load(item.thumbnail)</span>
+<span class="fc" id="L51">            .fitCenter()</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            .placeholder(AppCompatResources.getDrawable(context, R.drawable.loading_spinner)?.startAnimation())</span>
+<span class="fc" id="L53">            .error(R.drawable.ic_error)</span>
+<span class="fc" id="L54">            .into(holder.imageView)</span>
+
+<span class="fc" id="L56">        with(holder) {</span>
+<span class="fc" id="L57">            titleTextView.text = item.title</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            sellerTextView.isVisible = item.officialStoreName != null</span>
+<span class="fc" id="L59">            sellerTextView.text = item.officialStoreName</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            originalPriceTextView.isVisible = item.originalPrice != null</span>
+<span class="fc" id="L61">            originalPriceTextView.text = item.originalPrice.toString()</span>
+<span class="fc" id="L62">            originalPriceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            priceTextView.isVisible = item.price != null</span>
+<span class="fc" id="L64">            priceTextView.text = item.price.toString()</span>
+<span class="fc" id="L65">            shippingTextView.isVisible = item.freeShipping == true</span>
+<span class="fc" id="L66">            shippingTextView.text = context.getString(R.string.free_shipping)</span>
+
+<span class="fc" id="L68">            binding.root.setOnClickListener { onItemClickCallback(item) }</span>
+<span class="fc" id="L69">        }</span>
+<span class="fc" id="L70">    }</span>
+
+    @SuppressLint(&quot;NotifyDataSetChanged&quot;)
+    fun updateItems(items: List&lt;SearchItem&gt;) {
+<span class="fc" id="L74">        this.items = items</span>
+<span class="fc" id="L75">        notifyDataSetChanged()</span>
+<span class="fc" id="L76">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

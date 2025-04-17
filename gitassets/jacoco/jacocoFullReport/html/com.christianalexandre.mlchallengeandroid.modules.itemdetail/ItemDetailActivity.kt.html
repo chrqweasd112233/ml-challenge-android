@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemDetailActivity.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.christianalexandre.mlchallengeandroid.modules.itemdetail</a> &gt; <span class="el_source">ItemDetailActivity.kt</span></div><h1>ItemDetailActivity.kt</h1><pre class="source lang-java linenums">package com.christianalexandre.mlchallengeandroid.modules.itemdetail
+
+import android.content.Intent
+import android.graphics.Paint
+import android.os.Bundle
+import android.view.Menu
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.christianalexandre.domain.model.ItemDetail
+import com.christianalexandre.mlchallengeandroid.R
+import com.christianalexandre.mlchallengeandroid.databinding.ActivityItemDetailBinding
+import com.christianalexandre.domain.model.SearchItem
+import com.christianalexandre.domain.repository.ItemRepository
+import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailCarouselAdapter
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailSpecAdapter
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.fragments.ItemCategoryFragment
+import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
+import com.christianalexandre.mlchallengeandroid.modules.util.extensions.take
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
+import com.google.android.material.carousel.CarouselLayoutManager
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
+<span class="nc" id="L33">class ItemDetailActivity : BaseActivity() {</span>
+
+    private lateinit var binding: ActivityItemDetailBinding
+<span class="nc" id="L36">    private val viewModel: ItemDetailViewModel by viewModels()</span>
+    private lateinit var searchItem: SearchItem
+    private lateinit var specAdapter: ItemDetailSpecAdapter
+
+    // region Lifecycle
+    override fun onCreate(savedInstanceState: Bundle?) {
+<span class="nc" id="L42">        super.onCreate(savedInstanceState)</span>
+
+<span class="nc" id="L44">        searchItem = getExtra()</span>
+<span class="nc" id="L45">        setupContentView()</span>
+<span class="nc" id="L46">        setupTopBar(binding.includeTopBar.topBar, R.string.item_detail_title)</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (savedInstanceState == null) setupFragments()</span>
+<span class="nc" id="L48">        setupLayoutInfo()</span>
+<span class="nc" id="L49">        setupObservers()</span>
+<span class="nc" id="L50">        setupShareButton()</span>
+
+<span class="nc" id="L52">        viewModel.fetchInformation(searchItem.id)</span>
+<span class="nc" id="L53">    }</span>
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+<span class="nc" id="L56">        menuInflater.inflate(R.menu.menu_item_detail, menu)</span>
+<span class="nc" id="L57">        return super.onCreateOptionsMenu(menu)</span>
+    }
+    // endregion
+
+    // region Setup Methods
+    private fun getExtra(): SearchItem {
+<span class="nc" id="L63">        val jsonString = intent.getStringExtra(IntentConstants.SEARCH_ITEM)</span>
+<span class="nc" id="L64">        return Gson().fromJson(jsonString, SearchItem::class.java)</span>
+    }
+
+    private fun setupContentView() {
+<span class="nc" id="L68">        binding = ActivityItemDetailBinding.inflate(layoutInflater)</span>
+<span class="nc" id="L69">        setContentView(binding.root)</span>
+<span class="nc" id="L70">    }</span>
+
+    private fun setupFragments() {
+<span class="nc" id="L73">        supportFragmentManager.beginTransaction()</span>
+<span class="nc" id="L74">            .replace(R.id.category_fragment, ItemCategoryFragment())</span>
+<span class="nc" id="L75">            .commit()</span>
+<span class="nc" id="L76">    }</span>
+
+    private fun setupLayoutInfo() {
+<span class="nc" id="L79">        with(binding) {</span>
+<span class="nc" id="L80">            itemTitle.text = searchItem.title</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            originalPriceTextView.isVisible = searchItem.originalPrice != null</span>
+<span class="nc" id="L82">            originalPriceTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG</span>
+<span class="nc" id="L83">            originalPriceTextView.text = searchItem.originalPrice.toString()</span>
+<span class="nc" id="L84">            priceTextView.text = searchItem.price.toString()</span>
+<span class="nc" id="L85">            freeShipping.isVisible = searchItem.freeShipping == true</span>
+<span class="nc" id="L86">            freeShipping.text = getString(R.string.free_shipping)</span>
+<span class="nc" id="L87">        }</span>
+<span class="nc" id="L88">    }</span>
+
+    private fun setupObservers() {
+<span class="nc" id="L91">        lifecycleScope.launch {</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">            repeatOnLifecycle(Lifecycle.State.STARTED) {</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">                launch { viewModel.itemsDetailState.collectLatest { itemDetailStateMachine(it) } }</span>
+
+<span class="fc" id="L95">                launch {</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                    viewModel.itemDescriptionState.collectLatest {</span>
+<span class="fc" id="L97">                        itemDescriptionStateMachine(it)</span>
+<span class="fc" id="L98">                    }</span>
+<span class="nc" id="L99">                }</span>
+<span class="fc" id="L100">                launch {</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                    viewModel.topLoadingState.collectLatest {</span>
+<span class="fc" id="L102">                        binding.topLoadingView.isVisible = it</span>
+<span class="fc" id="L103">                    }</span>
+<span class="nc" id="L104">                }</span>
+<span class="fc" id="L105">            }</span>
+<span class="fc" id="L106">        }</span>
+<span class="nc" id="L107">    }</span>
+
+    private fun setupExtraInformationView(extraInfo: Map&lt;String, String&gt;) {
+<span class="nc" id="L110">        with(binding) {</span>
+<span class="nc" id="L111">            with(saleTermsRecyclerView) {</span>
+<span class="nc" id="L112">                layoutManager = LinearLayoutManager(this@ItemDetailActivity)</span>
+<span class="nc" id="L113">                adapter = ItemDetailSpecAdapter(extraInfo)</span>
+<span class="nc" id="L114">            }</span>
+<span class="nc" id="L115">        }</span>
+<span class="nc" id="L116">    }</span>
+
+    private fun setupCarouselRecyclerView(imageList: List&lt;String&gt;) {
+<span class="nc" id="L119">        with(binding.carouselRecyclerView) {</span>
+<span class="nc" id="L120">            setLayoutManager(CarouselLayoutManager())</span>
+<span class="nc" id="L121">            adapter = ItemDetailCarouselAdapter(this@ItemDetailActivity, imageList)</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc" id="L123">    }</span>
+
+    private fun setupSpecsView(specificationMap: Map&lt;String, String&gt;) {
+<span class="nc" id="L126">        specAdapter = ItemDetailSpecAdapter(specificationMap.take(5))</span>
+<span class="nc" id="L127">        with(binding) {</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            specificationButton.isVisible = specificationMap.entries.size &gt;= 5</span>
+<span class="nc" id="L129">            specificationButton.setOnClickListener { goToSpecsList(specificationMap) }</span>
+<span class="nc" id="L130">            with(specificationRecyclerView) {</span>
+<span class="nc" id="L131">                layoutManager = LinearLayoutManager(this@ItemDetailActivity)</span>
+<span class="nc" id="L132">                adapter = this@ItemDetailActivity.specAdapter</span>
+<span class="nc" id="L133">            }</span>
+<span class="nc" id="L134">        }</span>
+<span class="nc" id="L135">    }</span>
+
+    private fun setupShareButton() {
+<span class="nc" id="L138">        binding.includeTopBar.topBar.setOnMenuItemClickListener { menuItem -&gt;</span>
+<span class="nc" id="L139">            when (menuItem.itemId) {</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                R.id.share_button -&gt; {</span>
+<span class="nc" id="L141">                    shareButtonTapped()</span>
+<span class="nc" id="L142">                    true</span>
+                }
+<span class="nc" id="L144">                else -&gt; false</span>
+            }
+        }
+<span class="nc" id="L147">    }</span>
+    // endregion
+
+    // region Action Methods
+    private fun itemDetailStateMachine(state: GenericUiState&lt;ItemDetail&gt;) {
+<span class="nc" id="L152">        with(binding) {</span>
+<span class="nc" id="L153">            carouselLoadingView.isVisible = state is GenericUiState.Loading</span>
+<span class="nc" id="L154">            specificationLoadingView.isVisible = state is GenericUiState.Loading</span>
+<span class="nc" id="L155">            specificationRecyclerView.isVisible = state is GenericUiState.Success</span>
+<span class="nc" id="L156">            specificationButton.isVisible = state is GenericUiState.Success</span>
+<span class="nc" id="L157">            carouselErrorView.isVisible = state is GenericUiState.Error</span>
+<span class="nc" id="L158">            specificationErrorView.isVisible = state is GenericUiState.Error</span>
+<span class="nc" id="L159">        }</span>
+
+<span class="nc" id="L161">        when (state) {</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">            is GenericUiState.Error -&gt; Toast.makeText(</span>
+<span class="nc" id="L163">                this,</span>
+<span class="nc" id="L164">                R.string.item_detail_error,</span>
+<span class="nc" id="L165">                Toast.LENGTH_SHORT</span>
+<span class="nc" id="L166">            ).show()</span>
+
+<span class="nc bnc" id="L168" title="All 2 branches missed.">            is GenericUiState.Success -&gt; {</span>
+<span class="nc" id="L169">                val data = state.data</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">                data.saleTerms?.let { setupExtraInformationView(it) }</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                data.pictures?.let { setupCarouselRecyclerView(it) }</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                data.attributes?.let { setupSpecsView(it) }</span>
+            }
+
+            else -&gt; {}
+        }
+<span class="nc" id="L177">    }</span>
+
+    private fun itemDescriptionStateMachine(state: GenericUiState&lt;String&gt;) {
+<span class="nc" id="L180">        with(binding) {</span>
+<span class="nc" id="L181">            descriptionLoadingView.isVisible = state is GenericUiState.Loading</span>
+<span class="nc" id="L182">            descriptionTextView.isVisible = state is GenericUiState.Success</span>
+<span class="nc" id="L183">            descriptionErrorView.isVisible = state is GenericUiState.Error</span>
+<span class="nc" id="L184">        }</span>
+
+<span class="nc" id="L186">        when (state) {</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">            is GenericUiState.Error -&gt; Toast.makeText(</span>
+<span class="nc" id="L188">                this,</span>
+<span class="nc" id="L189">                R.string.item_detail_error,</span>
+<span class="nc" id="L190">                Toast.LENGTH_SHORT</span>
+<span class="nc" id="L191">            ).show()</span>
+
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            is GenericUiState.Success -&gt; binding.descriptionTextView.text =</span>
+<span class="nc" id="L194">                state.data</span>
+
+            else -&gt; {}
+        }
+<span class="nc" id="L198">    }</span>
+
+    private fun goToSpecsList(specificationMap: Map&lt;String, String&gt;) {
+<span class="nc" id="L201">        specAdapter.updateItems(specificationMap)</span>
+<span class="nc" id="L202">        binding.specificationButton.isVisible = false</span>
+<span class="nc" id="L203">    }</span>
+
+    private fun shareButtonTapped() {
+<span class="nc" id="L206">        val share = Intent.createChooser(Intent().apply {</span>
+<span class="nc" id="L207">            action = Intent.ACTION_SEND</span>
+<span class="nc" id="L208">            putExtra(Intent.EXTRA_TEXT, searchItem.permalink)</span>
+<span class="nc" id="L209">            type = &quot;text/plain&quot;</span>
+<span class="nc" id="L210">        }, null)</span>
+<span class="nc" id="L211">        startActivity(share)</span>
+<span class="nc" id="L212">    }</span>
+    // endregion
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemDetailViewModel.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.christianalexandre.mlchallengeandroid.modules.itemdetail</a> &gt; <span class="el_source">ItemDetailViewModel.kt</span></div><h1>ItemDetailViewModel.kt</h1><pre class="source lang-java linenums">package com.christianalexandre.mlchallengeandroid.modules.itemdetail
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.christianalexandre.domain.model.ApiResponse
+import com.christianalexandre.domain.model.ItemCategory
+import com.christianalexandre.domain.model.ItemDetail
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+@HiltViewModel
+<span class="fc" id="L21">class ItemDetailViewModel @Inject constructor(</span>
+<span class="fc" id="L22">    private val repository: com.christianalexandre.domain.repository.ItemRepository</span>
+<span class="fc" id="L23">) : ViewModel() {</span>
+
+    private val _itemsDetailState =
+<span class="fc" id="L26">        MutableStateFlow&lt;GenericUiState&lt;ItemDetail&gt;&gt;(GenericUiState.Uninitialized)</span>
+    private val _itemDescriptionState =
+<span class="fc" id="L28">        MutableStateFlow&lt;GenericUiState&lt;String&gt;&gt;(GenericUiState.Uninitialized)</span>
+    private val _itemCategoryState =
+<span class="fc" id="L30">        MutableStateFlow&lt;GenericUiState&lt;ItemCategory&gt;&gt;(GenericUiState.Uninitialized)</span>
+
+    // region Public Observers
+<span class="fc" id="L33">    val itemsDetailState: StateFlow&lt;GenericUiState&lt;ItemDetail&gt;&gt; = _itemsDetailState</span>
+<span class="fc" id="L34">    val itemDescriptionState: StateFlow&lt;GenericUiState&lt;String&gt;&gt; = _itemDescriptionState</span>
+<span class="fc" id="L35">    val itemCategoryState: StateFlow&lt;GenericUiState&lt;ItemCategory&gt;&gt; = _itemCategoryState</span>
+<span class="fc" id="L36">    val topLoadingState: StateFlow&lt;Boolean&gt; = combine(</span>
+<span class="fc" id="L37">        _itemsDetailState, _itemDescriptionState, _itemCategoryState</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">    ) { detailState, descriptionState, itemCategoryState -&gt;</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        detailState is GenericUiState.Loading ||</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                descriptionState is GenericUiState.Loading ||</span>
+<span class="pc bnc" id="L41" title="All 2 branches missed.">                itemCategoryState is GenericUiState.Loading</span>
+<span class="fc" id="L42">    }.stateIn(viewModelScope, SharingStarted.Lazily, false)</span>
+    // endregion
+
+    fun fetchInformation(itemId: String?) {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if (itemId == null) return</span>
+<span class="fc" id="L47">        fetchDetail(itemId)</span>
+<span class="fc" id="L48">        fetchDescription(itemId)</span>
+<span class="fc" id="L49">        fetchCategory(itemId)</span>
+<span class="fc" id="L50">    }</span>
+
+    fun fetchDetail(itemId: String) {
+<span class="fc" id="L53">        viewModelScope.launch {</span>
+<span class="fc" id="L54">            _itemsDetailState.value = GenericUiState.Loading</span>
+<span class="fc" id="L55">            withContext(Dispatchers.IO) {</span>
+<span class="pc" id="L56">                _itemsDetailState.value = handleResult(repository.getItemDetail(itemId))</span>
+<span class="nc" id="L57">            }</span>
+<span class="nc" id="L58">        }</span>
+<span class="fc" id="L59">    }</span>
+
+    fun fetchDescription(itemId: String) {
+<span class="fc" id="L62">        viewModelScope.launch {</span>
+<span class="fc" id="L63">            _itemDescriptionState.value = GenericUiState.Loading</span>
+<span class="fc" id="L64">            withContext(Dispatchers.IO) {</span>
+<span class="pc" id="L65">                _itemDescriptionState.value = handleResult(repository.getItemDescription(itemId))</span>
+<span class="nc" id="L66">            }</span>
+<span class="nc" id="L67">        }</span>
+<span class="fc" id="L68">    }</span>
+
+    fun fetchCategory(itemId: String) {
+<span class="fc" id="L71">        viewModelScope.launch {</span>
+<span class="fc" id="L72">            _itemCategoryState.value = GenericUiState.Loading</span>
+<span class="fc" id="L73">            withContext(Dispatchers.IO) {</span>
+<span class="pc" id="L74">                _itemCategoryState.value = handleResult(repository.getItemCategory(itemId))</span>
+<span class="nc" id="L75">            }</span>
+<span class="nc" id="L76">        }</span>
+<span class="fc" id="L77">    }</span>
+
+    private fun &lt;T&gt; handleResult(result: ApiResponse&lt;T?&gt;): GenericUiState&lt;T&gt; {
+<span class="nc" id="L80">        return when (result) {</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">            is ApiResponse.Error -&gt; GenericUiState.Error(result.error?.code)</span>
+<span class="nc" id="L82">            is ApiResponse.Success -&gt; {</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                result.data?.let {</span>
+<span class="nc" id="L84">                    GenericUiState.Success(it)</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                } ?: GenericUiState.Error(result.error?.code)</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

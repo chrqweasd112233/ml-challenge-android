@@ -5,14 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/surface"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/itemImageView"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/item_image"
         android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

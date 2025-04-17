@@ -19,4 +19,9 @@
 
     <!-- User Error -->
     <string name="item_detail_error">Houve um erro ao carregar todas as informações do produto</string>
+    <string name="image_error">Imagem de erro</string>
+    <string name="item_image">imagem do produto</string>
+
+    <!-- Accessibility -->
+
 </resources>

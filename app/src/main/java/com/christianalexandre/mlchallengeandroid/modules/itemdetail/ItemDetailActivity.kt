@@ -15,6 +15,7 @@ import com.christianalexandre.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityItemDetailBinding
 import com.christianalexandre.domain.model.SearchItem
+import com.christianalexandre.domain.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailCarouselAdapter
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailSpecAdapter

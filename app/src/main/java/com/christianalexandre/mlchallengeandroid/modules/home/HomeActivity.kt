@@ -64,7 +64,9 @@ class HomeActivity : BaseActivity() {
                 ) {
                     searchFor(textView.text.toString())
                     true
-                } else false
+                } else {
+                    false
+                }
             }
         }
     }
@@ -106,13 +108,18 @@ class HomeActivity : BaseActivity() {
 
     private fun searchStateMachine(state: GenericUiState<List<SearchItem>>) {
         with(binding) {
-            textView.isVisible = state is GenericUiState.Uninitialized || state is GenericUiState.Error
+            textView.isVisible =
+                state is GenericUiState.Uninitialized ||
+                state is GenericUiState.Error
             progressIndicator.isVisible = state is GenericUiState.Loading
             searchItemsRecyclerView.isVisible = state is GenericUiState.Success
 
             when (state) {
                 is GenericUiState.Empty -> textView.text = getString(R.string.search_empty)
-                is GenericUiState.Error -> textView.text = getString(R.string.search_error, state.code)
+                is GenericUiState.Error ->
+                    textView.text =
+                        getString(R.string.search_error, state.code)
+
                 is GenericUiState.Success -> searchItemsAdapter.updateItems(state.data)
                 else -> {}
             }

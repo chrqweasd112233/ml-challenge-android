@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchHistoryItemView.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.christianalexandre.mlchallengeandroid.modules.util.ui.views</a> &gt; <span class="el_source">SearchHistoryItemView.kt</span></div><h1>SearchHistoryItemView.kt</h1><pre class="source lang-java linenums">package com.christianalexandre.mlchallengeandroid.modules.util.ui.views
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.util.AttributeSet
+import android.view.Gravity
+import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.christianalexandre.mlchallengeandroid.R
+
+@SuppressLint(&quot;PrivateResource&quot;)
+<span class="fc" id="L17">class SearchHistoryItemView @JvmOverloads constructor(</span>
+<span class="fc" id="L18">    context: Context, attrs: AttributeSet? = null</span>
+<span class="fc" id="L19">) : LinearLayout(context, attrs) {</span>
+<span class="fc" id="L20">    val textView: TextView</span>
+
+<span class="fc" id="L22">    init {</span>
+<span class="fc" id="L23">        orientation = HORIZONTAL</span>
+<span class="fc" id="L24">        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, 48.dp)</span>
+<span class="fc" id="L25">        setPadding(16.dp, 0, 16.dp, 0)</span>
+<span class="fc" id="L26">        gravity = Gravity.CENTER_VERTICAL</span>
+
+<span class="fc" id="L28">        val startIcon = ImageView(context).apply {</span>
+<span class="fc" id="L29">            layoutParams = LayoutParams(24.dp, 24.dp)</span>
+<span class="fc" id="L30">            setImageResource(com.google.android.material.R.drawable.ic_clock_black_24dp)</span>
+<span class="fc" id="L31">            imageTintList = ColorStateList.valueOf(context.getColor(R.color.grey_primary))</span>
+<span class="fc" id="L32">            gravity = Gravity.CENTER_VERTICAL</span>
+<span class="fc" id="L33">        }</span>
+
+<span class="fc" id="L35">        textView = TextView(context).apply {</span>
+<span class="fc" id="L36">            layoutParams = LayoutParams(</span>
+<span class="fc" id="L37">                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f</span>
+<span class="fc" id="L38">            ).apply {</span>
+<span class="fc" id="L39">                marginStart = 16.dp</span>
+<span class="fc" id="L40">                marginEnd = 16.dp</span>
+<span class="fc" id="L41">            }</span>
+<span class="fc" id="L42">            textSize = 16f</span>
+<span class="fc" id="L43">            setTextColor(Color.BLACK)</span>
+<span class="fc" id="L44">            gravity = Gravity.CENTER_VERTICAL</span>
+<span class="fc" id="L45">        }</span>
+
+<span class="fc" id="L47">        val endIcon = ImageView(context).apply {</span>
+<span class="fc" id="L48">            layoutParams = LayoutParams(24.dp, 24.dp)</span>
+<span class="fc" id="L49">            setImageResource(com.google.android.material.R.drawable.material_ic_keyboard_arrow_next_black_24dp)</span>
+<span class="fc" id="L50">            imageTintList = ColorStateList.valueOf(context.getColor(R.color.grey_primary))</span>
+<span class="fc" id="L51">            gravity = Gravity.CENTER_VERTICAL</span>
+<span class="fc" id="L52">        }</span>
+
+<span class="fc" id="L54">        addView(startIcon)</span>
+<span class="fc" id="L55">        addView(textView)</span>
+<span class="fc" id="L56">        addView(endIcon)</span>
+<span class="fc" id="L57">    }</span>
+
+    private val Int.dp: Int
+<span class="fc" id="L60">        get() = (this * resources.displayMetrics.density).toInt()</span>
+<span class="fc" id="L61">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

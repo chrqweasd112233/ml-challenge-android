@@ -1,10 +1,10 @@
 # Mercado Libre Mobile Candidate
 
-Projeto desenvolvido durante processo seletivo para a vaga **Android  Developer  Senior**, onde o objetivo é desenvolver uma aplicação utilizando as APIS do Mercado Livre que permita o usuário pesquisar e visualizar detalhes de um produto.
+Projeto desenvolvido durante processo seletivo para a vaga **Android  Developer  Senior**, cujo objetivo é desenvolver uma aplicação utilizando as APIs do Mercado Livre permitindo ao usuário pesquisar e visualizar detalhes de um produto.
 
-[Requisitos](./)
+[Requisitos](/gitassets/requirements/requirements.md)
 
-**Observação:**  Foram utilizados os arquivos JSON fornecidos para o desenvolvimento, pois não foi possível configurar uma *redirect URI* sem *https* no [Dev Center](https://developers.mercadolivre.com.br/devcenter/new-list-app). Sendo assim, não é possível implementar OAuth 2.0 diretamente sem auxilio de um *middleware*.
+**Observação:**  Foram utilizados os arquivos JSON fornecidos para o desenvolvimento, pois não foi possível configurar uma *redirect URI* sem HTTPS no [Dev Center](https://developers.mercadolivre.com.br/devcenter/new-list-app). Sendo assim, não é possível implementar OAuth 2.0 diretamente sem auxílio de um *middleware*.
 
 ## Funcionalidades
 - Busca de produtos a partir da barra de pesquisa
@@ -15,31 +15,31 @@ Projeto desenvolvido durante processo seletivo para a vaga **Android  Developer 
   - Frete grátis
 - Detalhes do produto
   - Categoria
-  - Titulo
+  - Título
   - Imagens em carrossel horizontal
   - Garantia
   - Preço
   - Frete grátis
-  - Caracteristicas
+  - Características
   - Descrição
 - Compartilhar link do produto
 
 ## Arquitetura
 
-O projeto seguiu os principios da *Clean Architecture* combinados com o padrão MVVM (Model-View-ViewModel). A aplicação foi organizada em camadas e separadas por módulos:
+O projeto seguiu os princípios da *Clean Architecture* combinados com o padrão MVVM (Model-View-ViewModel). A aplicação foi organizada em camadas e separadas por módulos:
 - **domain**  
   - Contém as entidades de domínio
   - Define a interface do repositório
 - **data**  
   - Contém os *Data Transfer Objects* (DTOs)
   - Implementa o repositório definido na camada de *domain*
-  - Define a interface da api
-  - Implementa a interface para fornecer os arquivos JSON
-  - Desacoplada, aguardando implementação do Retrofit ou outro *client*
+  - Define a interface da API
+  - Implementa a interface responsável por fornecer os arquivos JSON mockados
+  - Desacoplada, aguardando implementação do *Retrofit* ou outro *client*
 - **app**
   - Apresentação (UI) implementada em XML
-  - ViewModels para abstrair a lógica das Activities/Fragments
-  - Hilt para injeção de dependências
+  - *ViewModels* para abstrair a lógica das *Activities/Fragments*
+  - *Hilt* para injeção de dependências
 
 ## Testes
 ### Testes instrumentados (Android Test)
@@ -58,7 +58,7 @@ Foram implementados testes instrumentados com foco nos principais fluxos da apli
 - Mockk
 - Turbine
 
-Foram implementados testes unitários cobrindo todos os ViewModels fazendo o uso da biblioteca **Turbine** para observar os estados do *StateFlow*. E, testes de todas as chamadas do repository mockando os retornos utilizando **mockk**.
+Foram implementados testes unitários cobrindo todos os *ViewModels* fazendo o uso da biblioteca **Turbine** para observar os estados do *StateFlow*. E, testes de todas as chamadas do repositório, simulando os retornos utilizando **mockk**.
 
 ---
 
@@ -70,7 +70,71 @@ Rodar os testes:
 
     ./gradlew jacocoFullReport
 
-Relatório:
+Relatório estará em:
 
-    /app/build/reports/jacoco/jacocoFullReport
+    ./app/build/reports/jacoco/jacocoFullReport
 
+Há um relatório salvo no repositório que pode ser visualizado sem rodar os testes:
+
+    ./gitassets/jacoco/jacocoFullReport/html/index.html
+
+
+---
+
+## Como rodar
+
+### Pré-requisitos
+
+- Android Studio
+- JDK 17
+- Emulador ou dispositivo Android com API 29 (Android 10) ou superior
+
+---
+
+### Passo a passo
+
+1. Clone o repositório
+2. Abra o projeto utilizando o Android Studio
+3. Aguarde a sincronização do Gradle
+4. Rode o projeto
+
+---
+
+## Ferramentas / Dependências
+
+### App
+
+- AndroidX Core
+- AndroidX Activity e Fragment
+- AndroidX Lifecycle
+- AndroidX AppCompat
+- Material Design
+- Retrofit
+- Gson Converter
+- Hilt
+- Glide
+- JaCoCo
+
+---
+
+### Testes
+
+- JUnit
+- MockK
+- Turbine
+- Kotlin Coroutines Test
+- Espresso
+
+---
+
+## Capturas de tela
+
+<p float="left">
+	<img src="./gitassets/img/home.png" width="200" />
+	<img src="./gitassets/img/item-list.png" width="200" />
+    <img src="./gitassets/img/item-detail.png" width="200" />
+</p>
+
+## Autor
+- Christian Alberton Alexandre
+  - [Linkedin](https://www.linkedin.com/in/christian-alexandre/)

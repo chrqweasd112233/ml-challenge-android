@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HomeActivity.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.christianalexandre.mlchallengeandroid.modules.home</a> &gt; <span class="el_source">HomeActivity.kt</span></div><h1>HomeActivity.kt</h1><pre class="source lang-java linenums">package com.christianalexandre.mlchallengeandroid.modules.home
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.christianalexandre.domain.model.SearchItem
+import com.christianalexandre.mlchallengeandroid.R
+import com.christianalexandre.mlchallengeandroid.databinding.ActivityHomeBinding
+import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
+import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchHistoryAdapter
+import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchItemsAdapter
+import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailActivity
+import com.christianalexandre.mlchallengeandroid.modules.util.constants.IntentConstants
+import com.christianalexandre.mlchallengeandroid.modules.util.managers.PreferencesManager
+import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@AndroidEntryPoint
+<span class="nc" id="L31">class HomeActivity : BaseActivity() {</span>
+    private lateinit var binding: ActivityHomeBinding
+<span class="nc" id="L33">    private val viewModel: HomeViewModel by viewModels()</span>
+    private lateinit var historyAdapter: SearchHistoryAdapter
+    private lateinit var searchItemsAdapter: SearchItemsAdapter
+
+    @Inject
+<span class="nc" id="L38">    lateinit var preferencesManager: PreferencesManager</span>
+
+    // region Lifecycle
+    override fun onCreate(savedInstanceState: Bundle?) {
+<span class="nc" id="L42">        super.onCreate(savedInstanceState)</span>
+
+<span class="nc" id="L44">        setupContentView()</span>
+<span class="nc" id="L45">        setupSearchBar()</span>
+<span class="nc" id="L46">        setupHistoryRecyclerView()</span>
+<span class="nc" id="L47">        setupSearchItemsRecyclerView()</span>
+<span class="nc" id="L48">        setupObservers()</span>
+<span class="nc" id="L49">    }</span>
+
+    // endregion
+
+    // region Setup Methods
+    private fun setupContentView() {
+<span class="nc" id="L55">        binding = ActivityHomeBinding.inflate(layoutInflater)</span>
+<span class="nc" id="L56">        setContentView(binding.root)</span>
+<span class="nc" id="L57">    }</span>
+
+    private fun setupSearchBar() {
+<span class="nc" id="L60">        with(binding) {</span>
+<span class="nc" id="L61">            searchView.editText.setOnEditorActionListener { textView, actionId, event -&gt;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (actionId == EditorInfo.IME_ACTION_SEARCH ||</span>
+<span class="nc bnc" id="L63" title="All 8 branches missed.">                    (event?.keyCode == KeyEvent.KEYCODE_ENTER &amp;&amp; event.action == KeyEvent.ACTION_DOWN)</span>
+                ) {
+<span class="nc" id="L65">                    searchFor(textView.text.toString())</span>
+<span class="nc" id="L66">                    true</span>
+                } else {
+<span class="nc" id="L68">                    false</span>
+                }
+            }
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">    }</span>
+
+    private fun setupHistoryRecyclerView() {
+<span class="nc" id="L75">        historyAdapter = SearchHistoryAdapter { searchFor(it) }</span>
+<span class="nc" id="L76">        historyAdapter.submitList(preferencesManager.searchHistory)</span>
+<span class="nc" id="L77">        with(binding.historyRecyclerView) {</span>
+<span class="nc" id="L78">            layoutManager = LinearLayoutManager(this@HomeActivity)</span>
+<span class="nc" id="L79">            adapter = this@HomeActivity.historyAdapter</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
+
+    private fun setupSearchItemsRecyclerView() {
+<span class="nc" id="L84">        searchItemsAdapter = SearchItemsAdapter(baseContext, emptyList()) { goToDetail(it) }</span>
+<span class="nc" id="L85">        with(binding.searchItemsRecyclerView) {</span>
+<span class="nc" id="L86">            layoutManager = LinearLayoutManager(this@HomeActivity)</span>
+<span class="nc" id="L87">            adapter = this@HomeActivity.searchItemsAdapter</span>
+<span class="nc" id="L88">            addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">    }</span>
+
+    private fun setupObservers() {
+<span class="nc" id="L93">        lifecycleScope.launch {</span>
+<span class="fc" id="L94">            repeatOnLifecycle(Lifecycle.State.STARTED) {</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                viewModel.searchItemsState.collectLatest { searchStateMachine(it) }</span>
+<span class="nc" id="L96">            }</span>
+<span class="fc" id="L97">        }</span>
+<span class="nc" id="L98">    }</span>
+    // endregion
+
+    // region Action Methods
+    private fun searchFor(query: String) {
+<span class="nc" id="L103">        preferencesManager.searchHistory = listOf(query)</span>
+<span class="nc" id="L104">        historyAdapter.submitList(preferencesManager.searchHistory)</span>
+<span class="nc" id="L105">        binding.searchView.hide()</span>
+<span class="nc" id="L106">        viewModel.fetchItems(query)</span>
+<span class="nc" id="L107">    }</span>
+
+    private fun searchStateMachine(state: GenericUiState&lt;List&lt;SearchItem&gt;&gt;) {
+<span class="nc" id="L110">        with(binding) {</span>
+<span class="nc" id="L111">            textView.isVisible =</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">                state is GenericUiState.Uninitialized ||</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                state is GenericUiState.Error</span>
+<span class="nc" id="L114">            progressIndicator.isVisible = state is GenericUiState.Loading</span>
+<span class="nc" id="L115">            searchItemsRecyclerView.isVisible = state is GenericUiState.Success</span>
+
+<span class="nc" id="L117">            when (state) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">                is GenericUiState.Empty -&gt; textView.text = getString(R.string.search_empty)</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                is GenericUiState.Error -&gt;</span>
+<span class="nc" id="L120">                    textView.text =</span>
+<span class="nc" id="L121">                        getString(R.string.search_error, state.code)</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                is GenericUiState.Success -&gt; searchItemsAdapter.updateItems(state.data)</span>
+                else -&gt; {}
+            }
+<span class="nc" id="L126">        }</span>
+<span class="nc" id="L127">    }</span>
+
+    private fun goToDetail(item: SearchItem) {
+<span class="nc" id="L130">        val itemJson = Gson().toJson(item)</span>
+<span class="nc" id="L131">        val intent = Intent(this, ItemDetailActivity::class.java)</span>
+<span class="nc" id="L132">        intent.putExtra(IntentConstants.SEARCH_ITEM, itemJson)</span>
+<span class="nc" id="L133">        startActivity(intent)</span>
+<span class="nc" id="L134">    }</span>
+    // endregion
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,84 @@
+# Android/IntelliJ
+*.iml
+.idea/
+.gradle/
+local.properties
+*.log
+captures/
+.externalNativeBuild/
+
+# Gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+.gradle/
+gradle-app.setting
+gradle.properties
+
+# Sign-in keys
+*.jks
+*.keystore
+keystore.properties
+
+# Generated files
+bin/
+gen/
+out/
+app/release/
+app/debug/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Kotlin/Jetpack Compose
+*.kotlin_module
+.kotlinc/
+
+# Caches
+**/build/
+**/.cxx/
+**/.DS_Store
+
+# Android Studio Navigation Editor temp files
+.navigation/
+
+# JetBrains IDE
+.idea/
+*.ipr
+*.iws
+
+# Test coverage
+*.ec
+
+# Crashlytics/Firebase
+crashlytics-build.properties
+fabric.properties
+
+# Virtual device data
+*.avd/
+*.avd.lock/
+
+# Proguard mapping
+*.map
+
+# NDK / CMake
+.cxx/
+
+# Log and debug
+*.log
+*.hprof
+
+# Local environment
+.env
+.env.*
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Other
+*.apk
+*.ap_
+

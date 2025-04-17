@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">ML Challenge Android</string>
+
+    <!-- Search -->
+    <string name="search_on_meli">Buscar no Mercado Livre</string>
+    <string name="search_not_started">Utilize o campo de pesquisa acima para fazer suas buscas</string>
+    <string name="search_empty">Sua busca não retornou resultados</string>
+    <string name="search_error">Aconteceu um erro ao realizar sua busca. (Código de erro: %d)</string>
+
+    <!-- Item -->
+    <string name="free_shipping">Frete grátis</string>
+
+    <!-- Item Detail -->
+    <string name="item_detail_title">Detalhes do produto</string>
+    <string name="item_specification">Características do produto</string>
+    <string name="item_all_specification">Conferir todas as características</string>
+    <string name="item_description">Descrição</string>
+    <string name="item_category">Categoria</string>
+
+    <!-- User Error -->
+    <string name="item_detail_error">Houve um erro ao carregar todas as informações do produto</string>
+
+    <!-- Accessibility -->
+    <string name="image_error">Imagem de erro</string>
+    <string name="item_image">Imagem do produto</string>
+
+</resources>

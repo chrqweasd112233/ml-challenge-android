@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">ML Challenge Android</string>
+
+    <!-- Search -->
+    <string name="search_on_meli">Buscar en Mercado Libre</string>
+    <string name="search_not_started">Utiliza el campo de búsqueda de arriba para comenzar</string>
+    <string name="search_empty">Tu búsqueda no arrojó resultados</string>
+    <string name="search_error">Ocurrió un error al realizar tu búsqueda. (Código de error: %d)</string>
+
+    <!-- Item -->
+    <string name="free_shipping">Envío gratis</string>
+
+    <!-- Item Detail -->
+    <string name="item_detail_title">Detalles del producto</string>
+    <string name="item_specification">Características del producto</string>
+    <string name="item_all_specification">Ver todas las características</string>
+    <string name="item_description">Descripción</string>
+    <string name="item_category">Categoría</string>
+
+    <!-- User Error -->
+    <string name="item_detail_error">Hubo un error al cargar toda la información del producto</string>
+
+    <!-- Accessibility -->
+    <string name="image_error">Error de imagen</string>
+    <string name="item_image">Imagen del producto</string>
+
+</resources>

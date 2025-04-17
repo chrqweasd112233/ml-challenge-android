@@ -2,9 +2,8 @@ package com.christianalexandre.mlchallengeandroid.modules.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
+import com.christianalexandre.domain.model.ApiResponse
+import com.christianalexandre.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: ItemRepository
+    private val repository: com.christianalexandre.domain.repository.ItemRepository
 ) : ViewModel() {
 
     private val _searchItemsState =

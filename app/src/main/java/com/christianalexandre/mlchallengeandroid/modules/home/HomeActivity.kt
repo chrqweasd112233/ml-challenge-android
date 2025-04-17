@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.christianalexandre.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityHomeBinding
-import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchHistoryAdapter
 import com.christianalexandre.mlchallengeandroid.modules.home.adapters.SearchItemsAdapter

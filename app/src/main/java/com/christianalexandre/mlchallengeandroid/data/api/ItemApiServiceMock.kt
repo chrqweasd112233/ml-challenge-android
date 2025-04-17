@@ -4,9 +4,9 @@ import android.content.Context
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCategoryDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdescription.ItemDescriptionDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDetailDTO
-import com.christianalexandre.mlchallengeandroid.data.util.ApiException
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
+import com.christianalexandre.domain.model.ApiException
+import com.christianalexandre.domain.model.ApiResponse
+import com.christianalexandre.mlchallengeandroid.data.model.util.SearchResponseDTO
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay

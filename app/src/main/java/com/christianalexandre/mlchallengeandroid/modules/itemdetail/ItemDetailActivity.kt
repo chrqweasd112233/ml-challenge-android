@@ -11,10 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.christianalexandre.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ActivityItemDetailBinding
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
-import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
+import com.christianalexandre.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.base.BaseActivity
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailCarouselAdapter
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.adapters.ItemDetailSpecAdapter

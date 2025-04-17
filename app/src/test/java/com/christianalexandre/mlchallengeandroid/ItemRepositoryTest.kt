@@ -5,10 +5,9 @@ import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCat
 import com.christianalexandre.mlchallengeandroid.data.model.itemdescription.ItemDescriptionDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDetailDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
-import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
-import com.christianalexandre.mlchallengeandroid.data.util.ApiException
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
+import com.christianalexandre.mlchallengeandroid.data.model.util.SearchResponseDTO
+import com.christianalexandre.domain.model.ApiException
+import com.christianalexandre.domain.model.ApiResponse
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepositoryImpl
 import io.mockk.clearMocks
 import io.mockk.coEvery
@@ -24,7 +23,7 @@ import org.junit.Test
 
 class ItemRepositoryTest {
 
-    private lateinit var itemRepository: ItemRepository
+    private lateinit var itemRepository: com.christianalexandre.domain.repository.ItemRepository
     private val mockItemApiService = mockk<ItemApiService>()
 
     @Before

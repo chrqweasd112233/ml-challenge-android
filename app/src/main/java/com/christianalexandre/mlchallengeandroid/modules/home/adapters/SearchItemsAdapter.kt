@@ -9,9 +9,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.christianalexandre.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.R
 import com.christianalexandre.mlchallengeandroid.databinding.ItemSearchBinding
-import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
 import com.christianalexandre.mlchallengeandroid.modules.util.extensions.startAnimation
 
 

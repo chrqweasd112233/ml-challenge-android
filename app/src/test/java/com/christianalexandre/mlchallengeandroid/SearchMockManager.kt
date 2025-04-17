@@ -1,5 +1,7 @@
 package com.christianalexandre.mlchallengeandroid
 
+import com.christianalexandre.domain.model.ItemCategory
+import com.christianalexandre.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.ItemCategoryDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.PathFromRootDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.toDomain
@@ -8,14 +10,12 @@ import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.ItemDetai
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.PictureDTO
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.search.AttributesDTO
-import com.christianalexandre.mlchallengeandroid.data.util.SearchApiPaginationDTO
+import com.christianalexandre.mlchallengeandroid.data.model.util.SearchApiPaginationDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.SearchItemDTO
-import com.christianalexandre.mlchallengeandroid.data.util.SearchResponseDTO
+import com.christianalexandre.mlchallengeandroid.data.model.util.SearchResponseDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.SellerDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.ShippingDTO
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
 
 object SearchMockManager {
     // region Search

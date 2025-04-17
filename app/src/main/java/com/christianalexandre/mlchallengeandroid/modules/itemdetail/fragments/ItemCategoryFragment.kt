@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.christianalexandre.mlchallengeandroid.databinding.FragmentCategoryBinding
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
+import com.christianalexandre.domain.model.ItemCategory
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailViewModel
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import kotlinx.coroutines.flow.collectLatest

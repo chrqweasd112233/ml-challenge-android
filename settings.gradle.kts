@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "mlchallengeandroid"
 include(":app")
- 
+include(":domain")

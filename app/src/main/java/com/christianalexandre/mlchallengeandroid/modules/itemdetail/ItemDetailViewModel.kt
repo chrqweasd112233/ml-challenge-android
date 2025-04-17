@@ -2,10 +2,9 @@ package com.christianalexandre.mlchallengeandroid.modules.itemdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
+import com.christianalexandre.domain.model.ApiResponse
+import com.christianalexandre.domain.model.ItemCategory
+import com.christianalexandre.domain.model.ItemDetail
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ItemDetailViewModel @Inject constructor(
-    private val repository: ItemRepository
+    private val repository: com.christianalexandre.domain.repository.ItemRepository
 ) : ViewModel() {
 
     private val _itemsDetailState =

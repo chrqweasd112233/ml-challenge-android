@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
 import com.christianalexandre.mlchallengeandroid.data.api.ItemApiServiceMock
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
 import com.christianalexandre.mlchallengeandroid.data.repository.ItemRepositoryImpl
 import com.christianalexandre.mlchallengeandroid.modules.util.managers.PreferencesManager
 import dagger.Module
@@ -32,7 +31,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSearchRepository(apiService: ItemApiService): ItemRepository {
+    fun provideSearchRepository(apiService: ItemApiService): com.christianalexandre.domain.repository.ItemRepository {
         return ItemRepositoryImpl(apiService)
     }
 

@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.domain.model
+package com.christianalexandre.domain.model
 
 data class ItemDetail(
     val id: String?,

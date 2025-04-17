@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.data.util
+package com.christianalexandre.mlchallengeandroid.data.model.util
 
 import com.christianalexandre.mlchallengeandroid.data.model.search.SearchItemDTO
 import com.google.gson.annotations.SerializedName

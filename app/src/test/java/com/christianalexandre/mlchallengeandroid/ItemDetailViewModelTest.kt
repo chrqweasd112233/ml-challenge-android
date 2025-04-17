@@ -1,9 +1,8 @@
 package com.christianalexandre.mlchallengeandroid
 
 import app.cash.turbine.test
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
-import com.christianalexandre.mlchallengeandroid.data.util.ApiException
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
+import com.christianalexandre.domain.model.ApiException
+import com.christianalexandre.domain.model.ApiResponse
 import com.christianalexandre.mlchallengeandroid.modules.itemdetail.ItemDetailViewModel
 import com.christianalexandre.mlchallengeandroid.modules.util.ui.generic.GenericUiState
 import io.mockk.coEvery
@@ -22,7 +21,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class ItemDetailViewModelTest {
 
-    private lateinit var itemRepository: ItemRepository
+    private lateinit var itemRepository: com.christianalexandre.domain.repository.ItemRepository
     private lateinit var itemDetailViewModel: ItemDetailViewModel
 
     @Before

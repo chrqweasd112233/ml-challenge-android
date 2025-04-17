@@ -1,4 +1,4 @@
-package com.christianalexandre.mlchallengeandroid.data.util
+package com.christianalexandre.domain.model
 
 class ApiException(val code: Int, override val message: String) : Exception(message)
 

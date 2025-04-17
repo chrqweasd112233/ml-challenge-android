@@ -20,6 +20,7 @@ lifecycleViewmodelKtx = "2.8.7"
 glide = "4.16.0"
 runner = "1.6.2"
 turbine = "1.1.0"
+jetbrainsKotlinJvm = "1.9.24"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -50,4 +51,5 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 

@@ -4,16 +4,15 @@ import com.christianalexandre.mlchallengeandroid.data.api.ItemApiService
 import com.christianalexandre.mlchallengeandroid.data.model.itemcategory.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.itemdetail.toDomain
 import com.christianalexandre.mlchallengeandroid.data.model.search.toDomain
-import com.christianalexandre.mlchallengeandroid.data.util.ApiResponse
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemCategory
-import com.christianalexandre.mlchallengeandroid.domain.model.ItemDetail
-import com.christianalexandre.mlchallengeandroid.domain.model.SearchItem
-import com.christianalexandre.mlchallengeandroid.domain.repository.ItemRepository
+import com.christianalexandre.domain.model.ApiResponse
+import com.christianalexandre.domain.model.ItemCategory
+import com.christianalexandre.domain.model.ItemDetail
+import com.christianalexandre.domain.model.SearchItem
 import javax.inject.Inject
 
 class ItemRepositoryImpl @Inject constructor(
     private val itemApiService: ItemApiService
-) : ItemRepository {
+) : com.christianalexandre.domain.repository.ItemRepository {
     override suspend fun search(query: String): ApiResponse<List<SearchItem>?> {
         return when (val result = itemApiService.search(query)) {
             is ApiResponse.Error -> ApiResponse.Error(result.error)

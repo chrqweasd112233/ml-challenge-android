@@ -107,7 +107,7 @@ tasks.register<JacocoReport>("jacocoFullReport") {
     classDirectories.setFrom(files(javaClasses, kotlinClasses))
     sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
 
-    val emulator = "Pixel_7_Android_14(AVD) - 14"
+    val emulator = "Pixel_7_Android_14(AVD) - 14" // It's necessary update with your AVD folder name
     executionData.setFrom(
         files(
             "$buildDir/jacoco/testDebugUnitTest.exec",
